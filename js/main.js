@@ -8,12 +8,12 @@ $('#tagline').textContent = D.tagline;
 $('#aboutHead').innerHTML = D.aboutHeading.map(l => `<span class="hline">${l}</span>`).join(' ');
 $('#aboutParas').innerHTML = D.about.map(p => `<p>${p}</p>`).join('');
 $('#facts').innerHTML = D.facts.map(f => `<div><small>${f.k}</small><span>${f.v}</span></div>`).join('');
-$('#stats').innerHTML = D.stats.map(s => `<div class="stat"><b data-n="${s.n}" data-s="${s.s}">0</b><span>${s.l}</span></div>`).join('');
+$('#stats').innerHTML = D.stats.map(s => `<div class="stat"><b data-n="${s.n}" data-s="${s.s}" data-d="${s.d || 0}">0</b><span>${s.l}</span></div>`).join('');
 $('#socials').innerHTML = [['LinkedIn', D.links.linkedin], ['GitHub', D.links.github], ['LeetCode', D.links.leetcode], ['Resume', D.links.resume]].filter(x => x[1] && x[1] !== '#').map(([n, h]) => `<a href="${h}" target="_blank" rel="noopener">${n} ↗</a>`).join('');
 if (D.links.resume && D.links.resume !== '#') $('#resumeBtn').href = D.links.resume; else $('#resumeBtn').style.display = 'none'; $('#mailTxt').textContent = D.email;
 
 // skills — bento grid
-const SK_META = { 'GenAI & Agents': ['01', 'Building with LLMs, retrieval and agents.'], 'Machine Learning': ['02', 'Models, data and evaluation.'], 'Full Stack': ['03', 'Interfaces and APIs that ship.'], 'Cloud & DevOps': ['04', 'Deploy, monitor, repeat.'], 'Data & Databases': ['05', 'Storing and shaping data.'], 'CS Fundamentals': ['06', 'The foundation under everything.'] };
+const SK_META = { 'AI/ML & GenAI': ['01', 'Models, data, prompts and retrieval.'], 'Programming & CS': ['02', 'Strong fundamentals, clean code.'], 'Web, APIs & Product': ['03', 'Interfaces that work on every screen.'], 'DevOps & Deployment': ['04', 'Build, test, ship, monitor.'], 'Forward Deployed Engineering': ['05', 'From client need to working solution.'] };
 $('#skillTabs').style.display = 'none';
 $('#skillGrid').className = 'bento';
 $('#skillGrid').innerHTML = Object.keys(D.skills).map((c, i) => `<article class="bcard b${i}" style="animation-delay:${i * 70}ms"><small>${SK_META[c] ? SK_META[c][0] : i + 1}</small><h3>${c}</h3><p>${SK_META[c] ? SK_META[c][1] : ''}</p><div class="bchips">${D.skills[c].map(([n]) => `<span>${n}</span>`).join('')}</div></article>`).join('');
@@ -32,7 +32,7 @@ const pc = ['All', ...new Set(D.projects.map(p => p.cat))];
 $('#projTabs').innerHTML = pc.map((c, i) => `<button class="tab${i ? '' : ' on'}" data-c="${c}">${c}</button>`).join('');
 const triedBefore = () => { try { return localStorage.getItem('tried') === '1'; } catch (e) { return false; } };
 function showProj(c) {
-  $('#projGrid').innerHTML = D.projects.filter(p => c === 'All' || p.cat === c).map(p => `<button class="card${p.featured ? ' feat' : ''}" data-id="${p.id}"><div class="art" style="--h:${p.hue}" data-n="${p.name[0]}"><span>${p.cat} · ${p.year}</span>${p.featured ? '<span class="flag">Flagship</span>' : ''}</div><div class="more">↗</div><div class="card-b"><small>${p.sub.toUpperCase()}</small><h3>${p.name}${D.showSampleBadges && p.sample ? '<i class="smp">Sample</i>' : ''}</h3><p>${p.tag || p.desc}</p><span class="try"><svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg>Try it live</span></div></button>`).join('');
+  $('#projGrid').innerHTML = D.projects.filter(p => c === 'All' || p.cat === c).map(p => `<button class="card${p.featured ? ' feat' : ''}" data-id="${p.id}"><div class="art" style="--h:${p.hue}" data-n="${p.name[0]}"><span>${[p.cat, p.year].filter(Boolean).join(' · ')}</span>${p.featured ? '<span class="flag">Flagship</span>' : ''}</div><div class="more">↗</div><div class="card-b"><small>${p.sub.toUpperCase()}</small><h3>${p.name}${D.showSampleBadges && p.sample ? '<i class="smp">Sample</i>' : ''}</h3><p>${p.tag || p.desc}</p><span class="try"><svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg>Try it live</span></div></button>`).join('');
   if (!triedBefore()) { const f = $('#projGrid .card'); f && f.classList.add('nudge'); }
   if (window.gsap) gsap.from('#projGrid .card', { y: 40, opacity: 0, duration: .7, stagger: .08, ease: 'power3.out' });
   }
@@ -42,7 +42,7 @@ $('#projGrid').onclick = e => {
   const c = e.target.closest('.card'); if (!c) return; const p = D.projects.find(x => x.id === c.dataset.id);
   try { localStorage.setItem('tried', '1'); } catch (er) {} $$('.card.nudge').forEach(x => x.classList.remove('nudge'));
   const m3 = p.id === 'p1' ? '<p class="t-intro">See how the idea works for the whole city, in 3D.</p><button class="btn solid" id="goPg">Open the 3D playground ↓</button>' : (window.Mini3D && Mini3D.has(p.id) ? `<div class="m3d" id="m3d"><canvas></canvas><div class="m3d-ui"><div class="seg"><button data-m="0">Without ${p.name}</button><button data-m="1">With ${p.name}</button></div><p class="m3d-cap"></p></div><span class="m3d-hint">3D · drag to rotate · illustrative</span></div>` : '');
-  $('#modalCard').innerHTML = `<div class="art" style="--h:${p.hue}" data-n="${p.name[0]}"><span>${p.cat} · ${p.year}</span><button class="x" id="mx" aria-label="Close">×</button></div><div class="mb"><h3>${p.name} <em>— ${p.sub}</em></h3><p class="mtag">${p.tag || p.desc}</p>
+  $('#modalCard').innerHTML = `<div class="art" style="--h:${p.hue}" data-n="${p.name[0]}"><span>${[p.cat, p.year].filter(Boolean).join(' · ')}</span><button class="x" id="mx" aria-label="Close">×</button></div><div class="mb"><h3>${p.name} <em>— ${p.sub}</em></h3><p class="mtag">${p.tag || p.desc}</p>
     <div class="mtabs" role="tablist"><button data-t="try" class="on">Try it live</button><button data-t="3d">How it helps · 3D</button><button data-t="case">Case study</button></div>
     <div class="mpane" data-pane="try"></div><div class="mpane" data-pane="3d" hidden>${m3}</div>
     <div class="mpane" data-pane="case" hidden><div class="pills" style="margin-top:6px">${p.stack.map(s => `<span>${s}</span>`).join('')}</div><h4>Problem</h4><p>${p.problem}</p><h4>Solution</h4><p>${p.solution}</p><h4>Impact</h4><p>${p.impact}</p>${p.live !== '#' || p.repo !== '#' ? `<div class="cta">${p.live !== '#' ? `<a class="btn solid" href="${p.live}" target="_blank" rel="noopener">Live demo ↗</a>` : ''}${p.repo !== '#' ? `<a class="btn ghost" href="${p.repo}" target="_blank" rel="noopener">Source code ↗</a>` : ''}</div>` : ''}</div></div>`;
@@ -178,7 +178,7 @@ function intro() {
   gsap.fromTo('.portrait img', { scale: 1.18 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: '.portrait', start: 'top bottom', end: 'bottom 35%', scrub: true } });
   gsap.utils.toArray('.sec .h2').forEach(h => gsap.fromTo(h, { letterSpacing: '-.02em' }, { letterSpacing: '-.045em', ease: 'none', scrollTrigger: { trigger: h, start: 'top 95%', end: 'top 55%', scrub: true } }));
   ScrollTrigger.create({ trigger: '.term', start: 'top 75%', once: true, onEnter: runTerm });
-  ScrollTrigger.create({ trigger: '.stats', start: 'top 85%', once: true, onEnter: () => $$('.stat b').forEach(b => gsap.to({ v: 0 }, { v: +b.dataset.n, duration: 2, ease: 'power2.out', onUpdate() { b.textContent = Math.round(this.targets()[0].v) + b.dataset.s; } })) });
+  ScrollTrigger.create({ trigger: '.stats', start: 'top 85%', once: true, onEnter: () => $$('.stat b').forEach(b => gsap.to({ v: 0 }, { v: +b.dataset.n, duration: 2, ease: 'power2.out', onUpdate() { b.textContent = this.targets()[0].v.toFixed(+b.dataset.d) + b.dataset.s; } })) });
 }
 addEventListener('load', intro);
 setTimeout(() => $$('.reveal').forEach(e => { if (+getComputedStyle(e).opacity < .99 && scrollY < 50) { e.style.opacity = 1; e.style.transform = 'none'; } }), 4500);

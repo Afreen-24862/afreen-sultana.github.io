@@ -137,6 +137,66 @@
     $('#t8k').onclick = e => { const d = e.target.closest('[data-del]'); if (d) { tasks.splice(+d.dataset.del, 1); save(); draw(); return; } const t = e.target.closest('.tk'); if (t) { const k = tasks[+t.dataset.i]; k.s = (k.s + 1) % 3; save(); draw(); } }; draw();
   };
 
+
+  /* 9 — Student Performance: interactive prediction (illustrative fixed-weight model) */
+  D.p9 = el => {
+    const F = [['study', 'Study hours / day', 0, 10, .5, 4, v => Math.min(v, 8) * 3, 24], ['att', 'Attendance %', 40, 100, 1, 80, v => (v - 40) * .2, 12], ['prev', 'Previous marks %', 30, 100, 1, 65, v => v * .4, 40], ['sleep', 'Sleep hours', 4, 10, .5, 7, v => 5 - Math.abs(v - 7.5) * 2, 5], ['asg', 'Assignments submitted %', 0, 100, 1, 70, v => v * .12, 12]];
+    el.innerHTML = `<p class="t-intro">Adjust a student’s habits and see the predicted score update. <small>(Illustrative model with fixed weights — the real project trains a Scikit-learn model on academic data.)</small></p>
+      <div class="pred"><div class="pred-in">${F.map(f => `<label class="pr"><span>${f[1]} <b id="v_${f[0]}">${f[5]}</b></span><input type="range" class="rng" id="r_${f[0]}" min="${f[2]}" max="${f[3]}" step="${f[4]}" value="${f[5]}"></label>`).join('')}</div>
+      <div class="pred-out"><div class="ring" id="t9ring"><b id="t9s">0</b><span>predicted</span></div><h4 id="t9band"></h4><p id="t9tip" class="t-hint"></p><div id="t9bars" class="cbars"></div></div></div>`;
+    const run = () => {
+      const val = {}; F.forEach(f => { val[f[0]] = +$('#r_' + f[0]).value; $('#v_' + f[0]).textContent = val[f[0]]; });
+      const parts = F.map(f => ({ k: f[1], c: Math.max(0, f[6](val[f[0]])), m: f[7] })); const score = Math.max(0, Math.min(100, 7 + parts.reduce((a, p) => a + p.c, 0)));
+      const band = score >= 75 ? ['Distinction', '#30d158'] : score >= 60 ? ['First class', '#64d2ff'] : score >= 40 ? ['Pass', '#ff9f0a'] : ['At risk', '#ff453a'];
+      $('#t9s').textContent = Math.round(score); $('#t9ring').style.setProperty('--p', score); $('#t9ring').style.setProperty('--c', band[1]); $('#t9band').textContent = band[0]; $('#t9band').style.color = band[1];
+      const lever = parts.map(p => ({ ...p, gap: p.m - p.c })).sort((a, b) => b.gap - a.gap)[0]; $('#t9tip').textContent = `Biggest room to improve: ${lever.k.toLowerCase()}.`;
+      $('#t9bars').innerHTML = parts.map(p => `<div><small>${p.k}</small><div class="meter"><i style="width:${Math.round(p.c / p.m * 100)}%"></i></div></div>`).join('');
+    };
+    $$('.pred input', el).forEach(i => i.oninput = run); run();
+  };
+
+  /* 10 — CI/CD pipeline: run it, break the tests, watch the quality gate */
+  D.p10 = el => {
+    const S = ['Commit', 'Build', 'Test', 'Containerize', 'Deploy']; let ver = 0, busy = false;
+    el.innerHTML = `<p class="t-intro">Push a change through a build → test → containerize → deploy pipeline. Break a test and watch the quality gate stop the release.</p>
+      <div class="pipe" id="t10p">${S.map((s, i) => `<div class="stage" data-s="idle"><i>${i + 1}</i><b>${s}</b><small>waiting</small></div>`).join('')}</div>
+      <div class="t-row"><button class="btn solid" id="t10run">Run pipeline</button><label class="tog"><input type="checkbox" id="t10fail"> Introduce a failing test</label></div>
+      <pre class="log" id="t10log">$ ready — click “Run pipeline”</pre>`;
+    const MSG = ['git push origin main', 'npm run build — compiled successfully', 'running 24 tests…', 'docker build -t app:latest .', 'deploying to production…'];
+    $('#t10run').onclick = async () => {
+      if (busy) return; busy = true; const fail = $('#t10fail').checked, st = $$('.stage', el), log = $('#t10log'); log.textContent = ''; st.forEach(s => { s.dataset.s = 'idle'; $('small', s).textContent = 'waiting'; });
+      const say = l => { log.textContent += l + '\n'; log.scrollTop = log.scrollHeight; }; const w = ms => new Promise(r => setTimeout(r, ms));
+      for (let i = 0; i < S.length; i++) {
+        st[i].dataset.s = 'run'; $('small', st[i]).textContent = 'running…'; say('$ ' + MSG[i]); await w(750);
+        if (fail && i === 2) { st[i].dataset.s = 'fail'; $('small', st[i]).textContent = 'failed'; say('✗ 2 tests failed (auth.spec, cart.spec)'); say('⛔ Quality gate blocked the release — nothing was deployed.'); for (let k = i + 1; k < S.length; k++) { st[k].dataset.s = 'skip'; $('small', st[k]).textContent = 'skipped'; } busy = false; return; }
+        st[i].dataset.s = 'ok'; $('small', st[i]).textContent = 'passed'; say('✓ ' + S[i] + ' passed');
+      }
+      ver++; say(`🚀 Released v1.0.${ver} to production`); busy = false;
+    };
+  };
+
+  /* 11 — Forward Deployed Engineering: pain points → tasks → handover notes */
+  D.p11 = el => {
+    const P = { 'Manual data entry': ['Build a form + validation and import script', 'Forms / CSV import'], 'Slow approvals': ['Add an approval workflow with email/chat notifications', 'Notifications API'], 'Scattered spreadsheets': ['Consolidate sheets into one source of truth', 'Spreadsheet / DB sync'], 'No status visibility': ['Create a live status dashboard', 'Reporting API'], 'Repeated customer emails': ['Automate templated replies for common requests', 'Email API'] };
+    const sel = new Set(['Manual data entry', 'Slow approvals']);
+    el.innerHTML = `<p class="t-intro">Pick the client’s pain points. See them become technical tasks, a solution flow and handover notes.</p>
+      <div class="movies" id="t11c">${Object.keys(P).map(k => `<button aria-pressed="${sel.has(k)}">${k}</button>`).join('')}</div>
+      <div class="flow" id="t11f"></div><label class="t-lab">Handover notes <small>(auto-generated)</small></label><textarea id="t11n" rows="7" readonly></textarea><button class="btn ghost" id="t11cp">Copy notes</button>`;
+    const run = () => { const k = [...sel]; $('#t11f').innerHTML = k.length ? k.map((x, i) => `<div class="fstep"><span>${i + 1}</span><div><b>${x}</b><small>→ ${P[x][0]} · <em>${P[x][1]}</em></small></div></div>`).join('') : '<p class="t-hint">Select at least one pain point…</p>';
+      $('#t11n').value = k.length ? `HANDOVER NOTES — Client Workflow Automation\n\nGoal: remove manual effort and improve visibility.\n\nWhat was built:\n${k.map((x, i) => `${i + 1}. ${P[x][0]}`).join('\n')}\n\nIntegrations: ${[...new Set(k.map(x => P[x][1]))].join(', ')}\n\nHow to support: check logs first, then the workflow settings. Escalate with the steps to reproduce.\nNext steps: gather feedback after 2 weeks and prioritise improvements.` : ''; };
+    $('#t11c').onclick = e => { const b = e.target.closest('button'); if (!b) return; const n = b.textContent; sel.has(n) ? sel.delete(n) : sel.add(n); b.setAttribute('aria-pressed', sel.has(n)); run(); };
+    $('#t11cp').onclick = () => { navigator.clipboard?.writeText($('#t11n').value); toastMsg('Notes copied ✓'); }; run();
+  };
+
+  /* 12 — Responsive portfolio: drag the screen width */
+  D.p12 = el => {
+    el.innerHTML = `<p class="t-intro">Drag the slider to resize the screen. The layout adapts — this is how the portfolio you’re viewing behaves.</p>
+      <label class="t-lab">Screen width: <b id="t12w">640</b>px · <span id="t12d">Tablet</span></label><input type="range" class="rng" id="t12r" min="300" max="900" value="640">
+      <div class="rs-wrap"><div class="rs" id="t12f" style="width:640px"><div class="rs-nav"><b>Afreen</b><span class="rs-links"><i>About</i><i>Work</i><i>Contact</i></span><span class="rs-burger">☰</span></div>
+        <div class="rs-hero"><h4>Hello, I’m Afreen</h4><p>AI/ML · Software · DevOps</p></div><div class="rs-grid"><div></div><div></div><div></div><div></div></div></div></div>`;
+    $('#t12r').oninput = e => { const w = +e.target.value; $('#t12f').style.width = w + 'px'; $('#t12w').textContent = w; $('#t12d').textContent = w < 520 ? 'Phone' : w < 780 ? 'Tablet' : 'Desktop'; };
+  };
+
   const toastMsg = m => { const t = $('#toast'); if (!t) return; t.textContent = m; t.classList.add('on'); clearTimeout(toastMsg.t); toastMsg.t = setTimeout(() => t.classList.remove('on'), 2200); };
   window.TryIt = { mount: (el, id) => D[id] && D[id](el), has: id => !!D[id] };
 

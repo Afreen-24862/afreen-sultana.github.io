@@ -1,64 +1,43 @@
 /* ============================================================
    EDIT ME — every piece of content on the site lives here.
-   Anything marked [PLACEHOLDER] is sample text: replace with real details.
+   Source of truth: Afreen's resume.
    ============================================================ */
 window.DATA = {
   name: "Afreen Sultana",
-  first: "AFREEN", last: "SULTANA",
-  roles: ["AI Engineer", "Full Stack Developer", "LLM & Agents Builder", "Problem Solver"],
-  tagline: "Final-year B.Tech CSE student in Hyderabad turning curiosity into shipped products — AI agents, RAG systems and full-stack apps.",
+  roles: ["AI / ML Engineer", "Software Engineer", "DevOps-Aware Product Engineer", "Forward Deployed Engineer"],
+  tagline: "Computer Science student in Hyderabad with strong foundations in Python, Java, AI/ML and DevOps — building practical projects and learning fast.",
   email: "afreensultana24862@gmail.com",
-  links: { linkedin: "#", github: "#", resume: "#", leetcode: "#" }, 
+  links: { linkedin: "#", github: "https://github.com/Afreen-24862", resume: "#", leetcode: "#" },
   location: "Hyderabad, India", college: "B.Tech CSE · Final Year",
 
-  aboutHeading: ["I build <b>intelligent</b>", "products where <b>AI</b>,", "<b>engineering</b>,", "and <b>people</b>", "meet."],
+  aboutHeading: ["I build <b>practical</b>", "software where <b>AI</b>,", "<b>engineering</b>,", "and <b>people</b>", "meet."],
   about: [
-    "I'm a final-year Computer Science student who likes shipping more than slides. I care about software that is fast, reliable and genuinely useful.",
-    "Right now I'm deep into LLM applications — retrieval, tool use, agents, evaluation — and the full-stack craft needed to put them in front of real users."
+    "I'm a Computer Science Engineering student with strong foundations in Python, Java, C, data structures, web development, AI/ML fundamentals and DevOps-aware software delivery.",
+    "I translate requirements into clean technical workflows, build practical projects, document my solutions and learn new tools quickly. I'm targeting entry-level software, AI/ML, DevOps and forward deployed engineering roles where problem solving, communication and ownership matter."
   ],
   facts: [
-    { k: "Focus", v: "Agentic AI · RAG · Full-Stack" },
-    { k: "Currently", v: "Final-year B.Tech CSE" },
+    { k: "Target roles", v: "AI/ML · Software · DevOps · FDE" },
+    { k: "Studying", v: "B.Tech CSE · 2023 – 2027" },
+    { k: "College", v: "Malla Reddy Engineering College for Women" },
+    { k: "CGPA", v: "8.20 / 10 (current)" },
     { k: "Based in", v: "Hyderabad, India" },
-    { k: "Looking for", v: "AI / Software roles & internships" },
-    { k: "Studying at", v: "Malla Reddy Engineering College for Women" }
+    { k: "Languages", v: "English (B2) · Hindi · Telugu" }
   ],
   stats: [
-    { n: 8, s: "+", l: "B.Tech CGPA" },
+    { n: 8.2, d: 1, s: "", l: "B.Tech CGPA (current)" },
     { n: 92, s: "%", l: "Class X" },
     { n: 72, s: "%", l: "Intermediate" },
-    { n: 1, s: "", l: "Flagship AI project" }
+    { n: 3, s: "", l: "Certifications" }
   ],
 
   skills: {
-    "GenAI & Agents": [
-      ["LLM Apps (OpenAI / Claude / Gemini)", 92], ["RAG Pipelines", 90], ["AI Agents & Tool Use", 88],
-      ["Model Context Protocol (MCP)", 80], ["LangChain / LangGraph", 84], ["Prompt & Context Engineering", 90],
-      ["Vector DBs (FAISS, pgvector, Pinecone)", 82], ["LLM Evals & Guardrails", 76], ["Fine-tuning (LoRA / PEFT)", 72], ["Embeddings & Reranking", 82]
-    ],
-    "Machine Learning": [
-      ["Python", 94], ["PyTorch", 80], ["Scikit-learn", 88], ["NLP / Transformers", 84], ["Pandas · NumPy", 92],
-      ["XGBoost", 78], ["Computer Vision (OpenCV)", 70], ["Hugging Face", 84], ["MLOps basics (MLflow)", 68]
-    ],
-    "Full Stack": [
-      ["React.js", 90], ["Next.js 15 (App Router)", 88], ["TypeScript", 86], ["Node.js · Express", 88], ["FastAPI · Flask", 86],
-      ["Tailwind CSS · shadcn/ui", 92], ["REST · GraphQL · WebSockets", 84], ["Auth (JWT · OAuth · NextAuth)", 85], ["Streaming UIs (SSE)", 80]
-    ],
-    "Cloud & DevOps": [
-      ["Docker", 84], ["Git · GitHub Actions CI/CD", 88], ["AWS (EC2 · S3 · Lambda · SES)", 74], ["GCP", 68],
-      ["Vercel · Render · Railway", 90], ["Kubernetes (basics)", 56], ["Observability (LangSmith · Sentry)", 70], ["Linux & Shell", 82]
-    ],
-    "Data & Databases": [
-      ["PostgreSQL", 86], ["MongoDB", 86], ["MySQL", 84], ["Redis", 74], ["Supabase", 88], ["Prisma / Drizzle ORM", 80], ["Data Viz (Plotly · Matplotlib)", 82]
-    ],
-    "CS Fundamentals": [
-      ["Data Structures & Algorithms", 90], ["Java", 88], ["C / C++", 80], ["OOP & Design Patterns", 86],
-      ["DBMS", 88], ["Operating Systems", 82], ["Computer Networks", 78], ["System Design", 80]
-    ]
+    "AI/ML & GenAI": [["Machine Learning Basics"],["Data Preprocessing"],["Feature Engineering"],["Model Training"],["Model Evaluation"],["NumPy"],["Pandas"],["Scikit-learn Basics"],["Prompt Engineering"],["RAG Fundamentals"],["Embeddings"],["Chatbot Workflows"]],
+    "Programming & CS": [["Python"],["Java"],["C"],["Data Structures"],["Algorithms"],["OOP"],["Logical Reasoning"],["Debugging"]],
+    "Web, APIs & Product": [["HTML"],["CSS"],["JavaScript"],["Responsive Design"],["REST API Fundamentals"],["Requirement Understanding"],["Technical Documentation"]],
+    "DevOps & Deployment": [["Git"],["GitHub"],["CI/CD Basics"],["Docker Fundamentals"],["Linux Commands"],["Cloud Deployment Concepts"],["Monitoring"],["Logging"],["Release Workflows"]],
+    "Forward Deployed Engineering": [["Stakeholder Communication"],["Client Workflow Automation"],["Rapid Prototyping"],["Debugging"],["API Integration Concepts"],["Handover Notes"],["Solution Support"]]
   },
-  marquee: ["Python","TypeScript","Next.js","React","FastAPI","Node.js","LangGraph","RAG","MCP","PyTorch","Docker","PostgreSQL","pgvector","Redis","AWS","Tailwind","Hugging Face","Java","GitHub Actions"],
 
-  /* College-only journey. sample:true entries show a "Sample" tag until she confirms them (set showSampleBadges:false when all are real) */
   showSampleBadges: false,
   experience: [
     { tab: "Final-Year Project", role: "AI for Urban Air Quality", org: "B.Tech Project", when: "2026", type: "Flagship",
@@ -69,42 +48,28 @@ window.DATA = {
         ["Approach:", "Combine Hyderabad’s real pollution data with an AI / LLM model that explains conditions in plain language and suggests practical actions."],
         ["Goal:", "Help users make better daily decisions and reduce pollution at an individual and community level."]
       ]},
-    { tab: "Academic Projects", role: "Mini & Major Projects", org: "B.Tech CSE", when: "2023 — 2026", type: "College",
-      tags: ["Python","Java","MySQL","Machine Learning","Web Dev"],
-      intro: "Hands-on projects built alongside coursework, each taking a classroom concept to a working application.",
+    { tab: "Core Strengths", role: "What I bring", org: "Software · AI/ML · DevOps", when: "Now", type: "Strengths",
+      tags: ["Problem Solving","Communication","Ownership","Documentation"],
+      intro: "Practical engineering across software development, AI/ML fundamentals and DevOps workflows.",
       points: [
-        ["Machine learning:", "Built classification, recommendation and NLP models from raw data to evaluation."],
-        ["Full stack:", "Designed database-backed web applications with authentication and clean UI."],
-        ["Fundamentals:", "Applied DSA, DBMS and OOP in lab projects with documented design and testing."]
+        ["Build:", "Practical solutions across software development, AI/ML fundamentals, DevOps workflows, APIs and documentation."],
+        ["Translate:", "Breaking business requirements into technical tasks, prototypes, workflows and clear handover notes."],
+        ["Communicate:", "Explaining technical ideas clearly to team members, users and non-technical stakeholders."],
+        ["Own:", "Continuous learning, debugging discipline, clean work habits and a willingness to improve."]
       ]},
-    { tab: "Technical Learning", role: "Workshops, Courses & Self-Learning", org: "College & online", when: "2024 — Present", type: "Ongoing",
-      tags: ["Generative AI","Prompt Engineering","Python","Cloud","DSA"],
-      intro: "Continuously learning the tools the industry uses today, beyond the syllabus.",
+    { tab: "B.Tech CSE", role: "B.Tech — Computer Science & Engineering", org: "Malla Reddy Engineering College for Women", when: "Aug 2023 — 2027", type: "Current CGPA 8.20",
+      tags: ["Programming","Data Structures","Algorithms","Web Development","AI/ML Foundations","Software Engineering"],
+      intro: "Hyderabad, India. Current CGPA: 8.20 / 10.",
       points: [
-        ["Generative AI:", "Studying LLMs, prompt engineering and retrieval-augmented generation."],
-        ["Problem solving:", "Regular data-structures and algorithms practice."],
-        ["Cloud & tooling:", "Git/GitHub workflows, deployment basics and API usage."]
-      ]},
-    { tab: "Campus Activities", role: "Student Club & Events", org: "Malla Reddy Engineering College for Women", when: "2024 — Present", type: "Leadership",
-      tags: ["Teamwork","Presentation","Event Coordination"],
-      intro: "Active in campus technical and cultural life, building communication and teamwork alongside engineering skills.",
-      points: [
-        ["Participation:", "Took part in technical events, paper/poster presentations and project expos."],
-        ["Collaboration:", "Worked in teams to plan, build and present projects within deadlines."]
-      ]},
-    { tab: "B.Tech CSE", role: "B.Tech — Computer Science & Engineering", org: "Malla Reddy Engineering College for Women", when: "2023 — Present", type: "Final Year",
-      tags: ["DSA","DBMS","OS","Computer Networks","OOP","Machine Learning"],
-      intro: "Scoring 8+ CGPA while building a strong base in core computer science and applied AI.",
-      points: [
-        ["Core CS:", "Data structures & algorithms, DBMS, operating systems, networks and object-oriented design."],
-        ["Applied AI:", "Machine learning and LLM-based applications through coursework and the final-year project."]
+        ["Focus:", "Programming, data structures, algorithms, web development, AI/ML foundations and software engineering practices."],
+        ["Applied:", "Turning coursework into working projects — from a resume screener and a prediction model to a CI/CD pipeline."]
       ]}
   ],
 
   now: [
-    { cmd: "practice", name: "dsa", flags: "--lang java --daily", title: "Data Structures & Algorithms", text: "Building problem-solving speed with dynamic programming, graphs and backtracking.", status: "ONGOING" },
-    { cmd: "learn", name: "llm-agents", flags: "--rag --tool-use", title: "LLMs & AI Agents", text: "Understanding how modern AI systems retrieve information, reason and use tools.", status: "LEARNING" },
-    { cmd: "explore", name: "system-design", flags: "--scale --cloud", title: "System Design & Cloud", text: "Learning how real products scale: caching, queues and deployment.", status: "EXPLORING" }
+    { cmd: "practice", name: "dsa", flags: "--lang python,java,c --daily", title: "Data Structures & Algorithms", text: "Building problem-solving speed and clean, debuggable code.", status: "ONGOING" },
+    { cmd: "learn", name: "genai", flags: "--prompting --rag --embeddings", title: "GenAI & RAG", text: "Prompt engineering, embeddings and chatbot workflows.", status: "LEARNING" },
+    { cmd: "explore", name: "devops", flags: "--docker --ci-cd --linux", title: "DevOps & Deployment", text: "CI/CD, Docker, Linux and release workflows.", status: "EXPLORING" }
   ],
 
   projects: [
@@ -114,6 +79,36 @@ window.DATA = {
       solution: "Feed Hyderabad’s pollution data into an AI / LLM model that interprets it, answers questions in plain language and recommends practical steps for residents.",
       impact: "Helps people in Hyderabad understand the air they breathe and take actions that help control pollution across the city.",
       stack: ["Python","LLM","Machine Learning","Data Analysis"], hue: 200, live: "#", repo: "#" },
+    { id: "p7", tag: "Score a resume against any job.", name: "Resume Screening Helper", cat: "AI", sub: "AI Resume Screening Helper", year: "",
+      desc: "A Python workflow that extracts skills from a resume, compares them with job-description keywords and generates a relevance score.",
+      problem: "Reading every resume by hand against a job description is slow and inconsistent.",
+      solution: "Python-based screening workflow: preprocess the text, extract skills, match them against the job-description keywords (ATS-style) and generate a relevance score.",
+      impact: "Strengthened practical understanding of text preprocessing, ATS-style keyword matching, scoring logic and AI-assisted recruitment use cases.",
+      stack: ["Python","NLP Concepts","Keyword Matching"], hue: 290, live: "#", repo: "#" },
+    { id: "p9", tag: "Predict how a student will perform.", name: "Student Performance Predictor", cat: "ML", sub: "Student Performance Prediction System", year: "",
+      desc: "An ML workflow that predicts student performance from structured academic data.",
+      problem: "Understanding which factors drive student performance — and spotting students who may struggle — from raw academic records.",
+      solution: "Data cleaning, exploratory analysis, feature selection, model training and evaluation with Pandas, NumPy and Scikit-learn, followed by interpreting the results.",
+      impact: "Covers the full machine-learning project lifecycle: from messy data to an evaluated, interpretable prediction.",
+      stack: ["Python","Pandas","NumPy","Scikit-learn"], hue: 160, live: "#", repo: "#" },
+    { id: "p10", tag: "From commit to deploy, automated.", name: "CI/CD Deployment Pipeline", cat: "DevOps", sub: "DevOps CI/CD Deployment Pipeline", year: "",
+      desc: "A structured deployment workflow for a web application: build, test and deploy stages with release documentation.",
+      problem: "Manual releases are slow and error-prone, and broken code can reach users.",
+      solution: "Version control with GitHub, build-test-deploy stages, basic containerization concepts with Docker and written release documentation.",
+      impact: "Shows an understanding of automation, deployment discipline, quality checks and production-ready engineering habits.",
+      stack: ["GitHub","Docker Concepts","CI/CD"], hue: 215, live: "#", repo: "#" },
+    { id: "p11", tag: "Turn client needs into a working plan.", name: "FDE Case Study", cat: "Product", sub: "Forward Deployed Engineering Case Study", year: "",
+      desc: "A client workflow-automation case study: requirements, pain points, a solution flow and handover notes.",
+      problem: "Client teams know their pain points but rarely express them as technical work.",
+      solution: "Gathered requirements, mapped user pain points, converted business needs into technical tasks, drafted a solution flow and wrote handover notes.",
+      impact: "Connects stakeholder communication with practical technical execution — the core of forward deployed engineering.",
+      stack: ["Requirements","APIs","Documentation"], hue: 35, live: "#", repo: "#" },
+    { id: "p12", tag: "This site: one layout for every screen.", name: "Responsive Portfolio", cat: "Web", sub: "Responsive Portfolio Website", year: "",
+      desc: "A responsive personal portfolio with structured sections for profile, skills, projects and contact details.",
+      problem: "A portfolio must present technical work professionally on every screen size.",
+      solution: "Semantic page structure, clean navigation, a mobile-friendly layout, strong visual hierarchy and accessibility-aware design in HTML, CSS and JavaScript.",
+      impact: "A fast, accessible site that works from small phones to large monitors — the one you are looking at now.",
+      stack: ["HTML","CSS","JavaScript"], hue: 255, live: "#", repo: "#" },
     { id: "p2", tag: "Ask Malla Reddy’s documents anything.", name: "CampusBot", cat: "AI", sub: "Malla Reddy College FAQ Chatbot (RAG)", year: "2025",
       desc: "A chatbot for students of Malla Reddy Engineering College for Women that answers questions about timetables, rules and notices from official college documents.",
       problem: "Students at Malla Reddy Engineering College for Women dig through PDFs, circulars and notice boards for simple answers.",
@@ -144,12 +139,6 @@ window.DATA = {
       solution: "Role-based login, searchable catalogue and automated fine calculation on a relational database.",
       impact: "A complete CRUD system showing DBMS and backend fundamentals.",
       stack: ["Java","Spring Boot","MySQL","HTML/CSS"], hue: 45, live: "#", repo: "#" },
-    { id: "p7", tag: "Score a resume against any job.", name: "ResumeLens", cat: "AI", sub: "AI Resume Screener", year: "2025",
-      desc: "Scores resumes against a job description and highlights missing skills.",
-      problem: "Reading every resume by hand is slow and inconsistent.",
-      solution: "Extract skills with NLP, compare against the role using embeddings and rank candidates.",
-      impact: "Faster shortlisting with transparent reasons.",
-      stack: ["Python","Embeddings","FastAPI","React"], hue: 290, live: "#", repo: "#" },
     { id: "p8", tag: "Plan work: To do, Doing, Done.", name: "TaskFlow", cat: "Full Stack", sub: "Productivity & Task Manager", year: "2024",
       desc: "A clean to-do and planner app with reminders and progress charts.",
       problem: "Students juggle deadlines across notes and chats.",
@@ -159,13 +148,13 @@ window.DATA = {
   ],
 
   education: [
-    { deg: "B.Tech — Computer Science & Engineering", org: "Malla Reddy Engineering College for Women", when: "2023 — Present", note: "CGPA 8+ · Final Year" },
+    { deg: "B.Tech — Computer Science & Engineering", org: "Malla Reddy Engineering College for Women, Hyderabad", when: "Aug 2023 — 2027", note: "Current CGPA 8.20 / 10" },
     { deg: "Intermediate (Class XII)", org: "Kendriya Vidyalaya", when: "Completed", note: "72%" },
     { deg: "Class X", org: "Kendriya Vidyalaya", when: "Completed", note: "92%" }
   ],
   achievements: [
-    "Scored 92% in Class X",
-    "Maintaining 8+ CGPA in B.Tech CSE",
-    "Building a final-year AI project for cleaner cities"
+    "Cambridge English Empower B2 Level — Cambridge University Press & Assessment",
+    "Cisco Certification — Python and C programming",
+    "Oracle Participation Certificate — course participation"
   ]
 };

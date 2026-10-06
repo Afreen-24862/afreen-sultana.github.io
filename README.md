@@ -2,7 +2,7 @@
 
 # Afreen Sultana — Portfolio
 
-**AI Engineer · Full Stack Developer** &nbsp;|&nbsp; Final-year B.Tech CSE · Hyderabad
+**AI/ML · Software · DevOps** &nbsp;|&nbsp; B.Tech CSE (2023 – 2027) · Hyderabad
 
 [**Live site →**](https://afreen-24862.github.io/afreen-sultana.github.io/)
 
@@ -31,13 +31,12 @@ Built with plain HTML, CSS and JavaScript — **no build step, no framework, no 
 | Project | What it does | Try it |
 |---|---|---|
 | **CityAir AI** *(flagship)* | LLM assistant built around Hyderabad's pollution data that explains the air and how to reduce it | Ask about today's air |
-| **CampusBot** | RAG chatbot for Malla Reddy Engineering College for Women documents — answers with a source, or says it doesn't know | Paste a notice, ask a question |
-| **FaceMark** | Face-recognition attendance | Scan a class, export CSV |
-| **ReelPick** | Content-based movie recommender | Pick movies, get matches |
-| **SentiScope** | Sentiment analysis dashboard | Score any review |
-| **LibraryHub** | Library management with issue / return / fines | Issue books, see fines |
-| **ResumeLens** | Resume ↔ job-description matcher | Paste both, get a fit score |
-| **TaskFlow** | Kanban task manager | Add and move tasks |
+| **AI Resume Screening Helper** | Python workflow that extracts skills, matches them to job-description keywords and scores relevance | Paste a resume + job description |
+| **Student Performance Prediction System** | ML workflow (Pandas, NumPy, Scikit-learn) that predicts student performance from academic data | Adjust habits, see the prediction |
+| **DevOps CI/CD Deployment Pipeline** | Build → test → containerize → deploy workflow with release documentation | Run the pipeline, break a test |
+| **Forward Deployed Engineering Case Study** | Client workflow-automation case study: requirements → tasks → handover notes | Pick pain points, get a plan |
+| **Responsive Portfolio Website** | The site you're looking at — semantic, accessible, mobile-friendly | Resize the screen |
+| CampusBot · FaceMark · ReelPick · SentiScope · LibraryHub · TaskFlow | Additional mini-projects, each with a live demo | Open any card |
 
 > The demos run entirely in the browser to show the *idea* of each project. The 3D scenes are illustrative simulations, not measured data.
 
