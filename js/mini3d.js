@@ -20,6 +20,14 @@
       order: i => { const row = Math.floor(i / 14), k = i % 14; return { p: [(k - 6.5) * .2, .3 + row * .75, -.2], c: [B, G, O, P][i % 4], r: [0, 0, 0], s: 1 }; }, shelf: true },
     p7: { name: 'ResumeLens', n: 24, geo: 'box', size: [.6, .8, .04], before: 'A pile of resumes to read by hand.', after: 'Ranked by fit — best matches first.',
       order: i => { const sc = 1 - i / 24; const c = new T.Color().setHSL(.33 * sc, .75, .5).getHex(); return { p: [-2.6 + i * .22, .45 + sc * .5, 0], c: i < 3 ? G : c, r: [0, .25, 0], s: i < 3 ? 1.25 : 1 }; } },
+    p9: { name: 'Predictor', n: 40, geo: 'sphere', size: [.16], before: 'Student records with no clear picture of who needs help.', after: 'Scores predicted — at-risk students stand out.',
+      order: i => { const s = i / 39; const c = new T.Color().setHSL(.33 * s, .8, .5).getHex(); return { p: [-3 + s * 6, .15 + s * s * 2.4, ((i * 7) % 5 - 2) * .35], c, r: [0, 0, 0], s: 1 }; } },
+    p10: { name: 'Pipeline', n: 30, geo: 'box', size: [.3, .3, .3], before: 'Manual releases: unpredictable and risky.', after: 'Every change flows through build → test → deploy.',
+      order: i => { const st = i % 5, k = Math.floor(i / 5), cols = [GREY, B, O, P, G]; return { p: [(st - 2) * 1.5, .2 + k * .36, 0], c: cols[st], r: [0, 0, 0], s: 1 }; } },
+    p11: { name: 'FDE', n: 27, geo: 'box', size: [.5, .34, .05], before: 'Client needs scattered across emails and calls.', after: 'Needs → tasks → handover notes, in order.',
+      order: i => { const col = i % 3, k = Math.floor(i / 3), cols = [O, B, G]; return { p: [(col - 1) * 1.9, .25 + k * .4, 0], c: cols[col], r: [0, 0, 0], s: 1 }; } },
+    p12: { name: 'Portfolio', n: 22, geo: 'box', size: [.6, .3, .06], before: 'Pieces of a site with no structure.', after: 'A structured, responsive page: header, hero, sections.',
+      order: i => { const rows = [[0, 1], [2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12], [13, 14, 15, 16, 17]]; let r = 0, pos = i; for (let a = 0; a < rows.length; a++) { if (rows[a].includes(i)) { r = a; pos = rows[a].indexOf(i); break; } } const cnt = (rows[r] || [1]).length; return { p: [(pos - (cnt - 1) / 2) * 1.3, 2.6 - r * .62, 0], c: [B, P, G, O, GREY][r % 5], r: [0, 0, 0], s: 1 }; } },
     p8: { name: 'TaskFlow', n: 30, geo: 'box', size: [.34, .34, .34], before: 'Deadlines scattered across notes and chats.', after: 'Organised into To do, Doing, Done.',
       order: i => { const col = i % 3, k = Math.floor(i / 3), c = [GREY, B, G]; return { p: [(col - 1) * 1.8, .2 + (k % 6) * .4, (Math.floor(k / 6) - .5) * .5], c: c[col], r: [0, 0, 0], s: 1 }; } }
   };
