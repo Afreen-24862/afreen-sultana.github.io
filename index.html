@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Afreen Sultana — AI Engineer & Full Stack Developer</title>
+<meta name="description" content="Portfolio of Afreen Sultana — final-year B.Tech CSE student building AI agents, RAG systems and full-stack products.">
+<!-- Icons -->
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+<meta name="author" content="Afreen Sultana">
+<meta name="apple-mobile-web-app-title" content="Afreen">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<!-- Share preview: address set for https://afreen-24862.github.io/ -->
+<link rel="canonical" href="https://afreen-24862.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Afreen Sultana">
+<meta property="og:title" content="Afreen Sultana — AI Engineer &amp; Full Stack Developer">
+<meta property="og:description" content="Final-year B.Tech CSE student in Hyderabad building AI for cleaner air. Try the live project demos.">
+<meta property="og:url" content="https://afreen-24862.github.io/">
+<meta property="og:image" content="https://afreen-24862.github.io/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Afreen Sultana — AI Engineer &amp; Full Stack Developer">
+<meta name="twitter:description" content="Final-year B.Tech CSE student in Hyderabad building AI for cleaner air.">
+<meta name="twitter:image" content="https://afreen-24862.github.io/og-image.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Afreen Sultana","jobTitle":"AI Engineer & Full Stack Developer","email":"mailto:afreensultana24862@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Hyderabad","addressCountry":"IN"},"alumniOf":"Malla Reddy Engineering College for Women"}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+<script>try{var t=localStorage.getItem('theme');if(!t&&matchMedia('(prefers-color-scheme:dark)').matches)t='dark';if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<noscript><style>.reveal{opacity:1!important;transform:none!important}.ln>span{transform:none!important}</style></noscript>
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <a class="skip" href="#about">Skip to content</a>
+  <a href="#top" class="logo"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0L14.8 9.2 24 12l-9.2 2.8L12 24l-2.8-9.2L0 12l9.2-2.8Z"/></svg>Afreen Sultana</a>
+  <nav class="links" id="links">
+    <a href="#about">About</a><a href="#skills">Skills</a><a href="#experience">Journey</a><a href="#work">Work</a><a href="#demo">Live demo</a><a href="#contact">Contact</a>
+  </nav>
+  <div class="nav-right">
+    <button class="kbd" id="openPalette" aria-label="Open command palette"><span>⌘</span><span>K</span></button>
+    <button class="icon-btn" id="themeBtn" aria-label="Toggle theme">◐</button>
+    <button class="burger" id="burger" aria-label="Menu"><i></i><i></i></button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-stage">
+  <p class="eyebrow reveal">Hello, I’m</p>
+  <h1 class="mega reveal">Afreen Sultana</h1>
+  <p class="role reveal"><span id="typed"></span><i class="caret"></i></p>
+  <p class="tag reveal" id="tagline"></p>
+  <div class="cta reveal">
+    <a href="#work" class="btn solid">Try my live projects</a>
+    <a href="#" class="btn link" id="resumeBtn">Resume ›</a>
+  </div>
+  </div>
+  <div class="cue" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg></div>
+</section>
+
+<!-- ABOUT -->
+<section class="sec grey" id="about">
+  <div class="wrap about-grid">
+    <div>
+      <span class="label">ABOUT</span>
+      <h2 class="ed" id="aboutHead"></h2>
+      <div class="paras" id="aboutParas"></div>
+      <div class="chips-links" id="socials"></div>
+    </div>
+    <div class="about-side">
+      <figure class="portrait"><img src="assets/afreen.jpg" alt="Afreen Sultana" loading="lazy"></figure>
+      <div class="facts" id="facts"></div>
+      <div class="stats" id="stats"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section class="sec" id="skills">
+  <div class="wrap">
+    <span class="label">EXPERTISE</span>
+    <h2 class="h2">Technical skills.</h2>
+    <p class="lead">Built around what the industry is hiring for right now — GenAI, agents, and production-grade full-stack.</p>
+    <div class="tabs" id="skillTabs"></div>
+    <div class="skill-grid" id="skillGrid"></div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="sec grey" id="experience">
+  <div class="wm" style="bottom:-4%;right:-2%">BUILD</div>
+  <div class="wrap">
+    <span class="label">JOURNEY</span>
+    <h2 class="h2">Project &amp; academics.</h2>
+    <div class="exp">
+      <div class="exp-list" id="expList"></div>
+      <div class="exp-panels" id="expPanels"></div>
+    </div>
+  </div>
+</section>
+
+<!-- NOW -->
+<section class="sec black">
+  <div class="wrap">
+    <span class="label">FOCUS</span>
+    <h2 class="h2">Currently learning.</h2>
+    <div class="term">
+      <div class="term-bar"><i></i><i></i><i></i><span>afreen ~ learning</span></div>
+      <div class="term-body" id="term"></div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="sec" id="work">
+  <div class="wrap">
+    <span class="label">SELECTED WORK</span>
+    <h2 class="h2">Selected work.</h2>
+    <div class="tabs" id="projTabs"></div>
+    <div class="proj-grid" id="projGrid"></div>
+    <div class="pg" id="playground">
+      <div class="pg-head">
+        <span class="label">PLAYGROUND</span>
+        <h3>See how CityAir helps Hyderabad — in 3D.</h3>
+        <p>Drag the city to look around. Raise the pollution, then switch on the actions CityAir recommends and watch the air clear.</p>
+      </div>
+      <div class="pg-stage" id="pgStage">
+        <canvas id="pgCanvas" aria-label="Interactive 3D city showing smog levels"></canvas>
+        <div class="pg-haze" id="pgHaze"></div>
+        <div class="pg-hud"><small>PROJECTED AQI</small><b id="pgAqi">150</b><span id="pgLvl">Unhealthy for sensitive groups</span><em id="pgDelta"></em></div>
+        <div class="pg-hint">Drag to rotate</div>
+      </div>
+      <div class="pg-ctrl">
+        <label class="pg-slider"><span>City pollution today <b id="pgVal">150</b></span><input type="range" id="pgRange" min="10" max="300" value="150"></label>
+        <div class="pg-toggles">
+          <button class="pg-t" data-k="cars" aria-pressed="false"><i>🚌</i>Public transport<small>fewer cars</small></button>
+          <button class="pg-t" data-k="trees" aria-pressed="false"><i>🌳</i>Plant trees<small>green cover</small></button>
+          <button class="pg-t" data-k="clean" aria-pressed="false"><i>🔥</i>No waste burning<small>cleaner air</small></button>
+          <button class="pg-t ghost" id="pgLive" type="button"><i>📍</i>Use live AQI<small id="pgLiveSub">from the demo below</small></button>
+        </div>
+        <p class="pg-note">Illustrative simulation: each action’s effect is a simplified estimate to show the idea, not measured data.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIVE DEMO -->
+<section class="sec" id="demo">
+  <div class="wrap">
+    <span class="label">LIVE DEMO</span>
+    <h2 class="h2">Check the air you breathe.</h2>
+    <p class="lead">A working taste of the idea behind CityAir AI — live air-quality data, starting with Hyderabad, turned into plain-language guidance.</p>
+    <form class="aq-search" id="aqForm">
+      <input id="aqCity" value="Hyderabad" placeholder="Search a city…" aria-label="City" autocomplete="off">
+      <button class="btn solid" type="submit">Check air</button>
+      <button class="btn ghost" type="button" id="aqLocate">Use my location</button>
+    </form>
+    <div class="aq" id="aq" aria-live="polite"><p class="aq-empty">Loading live data…</p></div>
+    <p class="aq-note">Live data from Open-Meteo (CAMS). Guidance is general information, not medical advice.</p>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section class="sec grey" id="education">
+  <div class="wm" style="bottom:-6%;left:-2%">2026</div>
+  <div class="wrap edu-grid">
+    <div>
+      <span class="label">ACADEMICS</span>
+      <h2 class="h2">Education.</h2>
+      <div class="tl" id="edu"></div>
+    </div>
+    <div>
+      <span class="label">HIGHLIGHTS</span>
+      <h2 class="h2">Highlights.</h2>
+      <ul class="ach" id="ach"></ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="sec" id="contact">
+  <div class="wrap contact">
+    <span class="label">CONTACT</span>
+    <h2 class="big">Let’s build something great.</h2>
+    <button class="mail" id="mailBtn"><span id="mailTxt"></span><small>click to copy</small></button>
+    <form id="form" class="form">
+      <input name="n" placeholder="Your name" required>
+      <input name="e" type="email" placeholder="Your email" required>
+      <textarea name="m" rows="4" placeholder="Tell me about your idea or role…" required></textarea>
+      <button class="btn solid" type="submit">Send message ↗</button>
+    </form>
+  </div>
+</section>
+<footer class="foot"><span>© 2026 Afreen Sultana</span><span><a href="#top">back to top ↑</a></span></footer>
+
+<!-- Project modal -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Project details"><div class="modal-card" id="modalCard" tabindex="-1"></div></div>
+<!-- Command palette -->
+<div class="palette" id="palette" role="dialog" aria-modal="true" aria-label="Command palette"><div class="pal-card">
+  <input id="palIn" placeholder="Type a command or search…  (Esc to close)">
+  <ul id="palList"></ul>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+<script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" defer></script>
+<script src="js/data.js" defer></script>
+<script src="js/main.js" defer></script>
+<script src="js/playground.js" defer></script>
+<script src="js/mini3d.js" defer></script>
+<script src="js/tryit.js" defer></script>
+</body>
+</html>
