@@ -59,7 +59,7 @@ PROJECTS = [
              "imgs": [("aira/sidebar.jpg", "The React app shell served "
                        "against this API: every research tool available, "
                        "status 'RAG Pipeline Active - Powered by ChromaDB + "
-                       "Gemini'")]},
+                       "Gemini'", False)]},
             {"file": "backend/app/api/papers.py",
              "title": "Upload & index papers", "key": "_process_paper",
              "does": "Accepts a PDF, saves it, responds immediately, then "
@@ -461,14 +461,16 @@ def build():
                     code=highlight_lines(code),
                     key=key_range(code, m.get("key")))
             entry["cmd"] = m.get("cmd") or f"python {m['file']}"
-            entry["imgs"] = [{"src": f"assets/codelab/{s}", "cap": c}
-                             for s, c in m.get("imgs", [])]
+            # a third item False keeps an image out of the project gallery
+            entry["imgs"] = [{"src": f"assets/codelab/{img[0]}", "cap": img[1],
+                              "gal": len(img) < 3 or img[2]}
+                             for img in m.get("imgs", [])]
             if proj["run"] and m.get("run", True):
                 out, secs, charts = run_module(folder, m["file"])
                 outputs_by_file[m["file"]] = out
                 entry.update(out=out, secs=secs, ran=True)
                 entry["imgs"] += [{"src": save_chart(c, proj["id"]),
-                                   "cap": c.name} for c in charts]
+                                   "cap": c.name, "gal": True} for c in charts]
                 print(f"  ran {proj['slug']}/{m['file']} in {secs:.2f}s")
             else:
                 entry["ran"] = False
