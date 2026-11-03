@@ -69,7 +69,7 @@ PROJECTS = [
                   "ChromaDB", "Gemini LLM", "React (Vite)", "SQLAlchemy"],
         "data": "Research papers uploaded as PDFs (BERT, ResNet, GANs, "
                 "DQN Atari ...)",
-        "kpis": [("6", "papers indexed"), ("16", "chunks for BERT alone"),
+        "kpis": [("6", "papers indexed"), ("16", "chunks indexed (BERT paper)"),
                  ("384-d", "MiniLM embeddings"), ("7", "research tools")],
         "modules": [
             {"file": "backend/app/main.py", "title": "API start-up",
@@ -80,8 +80,8 @@ PROJECTS = [
                      "research routers.",
              "notes": ["Pre-loading the embedding model at start-up keeps "
                        "the first user request fast.",
-                       "Missing Gemini key = warning, not a crash: upload "
-                       "and browsing still work."],
+                       "Without a Gemini key the API logs a warning instead "
+                       "of failing; upload and browsing keep working."],
              "cmd": "uvicorn app.main:app --reload",
              "imgs": [("aira/sidebar.jpg", "The React app shell served "
                        "against this API: every research tool available, "
@@ -93,8 +93,8 @@ PROJECTS = [
                      "in the background extracts text, splits it into "
                      "overlapping chunks, embeds them into ChromaDB and "
                      "marks the paper ready.",
-             "notes": ["Background task = the upload request returns in "
-                       "milliseconds; indexing happens after the response.",
+             "notes": ["Indexing runs as a background task, so the upload "
+                       "request returns immediately.",
                        "Delete removes the PDF, its vectors and its DB row - "
                        "nothing is left behind."],
              "cmd": "POST /api/v1/papers/upload",
@@ -180,8 +180,8 @@ PROJECTS = [
              "does": "Reads 5½ years of daily Hyderabad readings and "
                      "profiles them: period, missing dates, missing values "
                      "per pollutant and how often each AQI category occurs.",
-             "notes": ["Explore before cleaning - the missing-value profile "
-                       "(PM10 and NH3 ~18% empty) decides the strategy.",
+             "notes": ["The missing-value profile (PM10 and NH3 about 18% "
+                       "empty) set the cleaning strategy in step 2.",
                        "Most days are Moderate or Satisfactory; Poor and "
                        "worse are rare but matter most to residents."]},
             {"file": "clean_features.py", "title": "Clean + features",
@@ -198,27 +198,29 @@ PROJECTS = [
                      "and the 2020 lockdown as a natural experiment.",
              "notes": ["Winter is worst, monsoon cleanest - rain washes "
                        "particles out of the air.",
-                       "PM2.5 has the strongest link with AQI (r = 0.78), so "
-                       "the assistant talks about it most."]},
+                       "PM2.5 has the strongest correlation with AQI "
+                       "(r = 0.78)."]},
             {"file": "train_model.py", "title": "Forecast tomorrow",
              "key": "main",
              "does": "Trains Linear Regression and Random Forest on "
                      "2015-2019, tests on unseen 2020, and compares both "
                      "with a 'tomorrow = today' baseline.",
-             "notes": ["Time-based split: a random split would let the "
-                       "model peek at the future and inflate the score.",
-                       "Predicting the CHANGE instead of the level is what "
-                       "let the forest beat the baseline."]},
+             "notes": ["Time-based split (train 2015-2019, test 2020) "
+                       "avoids the look-ahead bias of a random split.",
+                       "Modelling the day-to-day change rather than the level "
+                       "lets the Random Forest beat the persistence "
+                       "baseline."]},
             {"file": "assistant.py", "title": "LLM assistant",
              "key": "build_fact_sheet",
              "does": "Builds a fact sheet from the data and the forecast "
                      "model, puts it in a grounded prompt and asks Gemini. "
                      "Without an API key a rule-based fallback answers from "
                      "the same facts.",
-             "notes": ["Grounding: the LLM may only use our numbers, so it "
-                       "cannot invent AQI values.",
-                       "This recording ran without an API key, so the "
-                       "answers below come from the offline fallback."]},
+             "notes": ["Grounded generation: the prompt restricts the LLM to "
+                       "the computed fact sheet, so it cannot invent AQI "
+                       "values.",
+                       "The output below was generated without an API key, "
+                       "so it shows the offline fallback mode."]},
         ],
     },
     {
@@ -241,17 +243,17 @@ PROJECTS = [
              "does": "Loads the UCI dataset (';'-separated), checks types "
                      "and missing values, and defines the target: pass if "
                      "the final grade G3 is 10 or more out of 20.",
-             "notes": ["67% pass / 33% fail - imbalanced, so accuracy alone "
-                       "would be misleading.",
-                       "38 students scored 0: most likely absent from the "
-                       "exam, worth mentioning as a data-quality caveat."]},
+             "notes": ["Classes are imbalanced (67% / 33%), so balanced "
+                       "metrics are reported alongside accuracy.",
+                       "38 students scored 0, most likely absent from the "
+                       "final exam - a known data-quality caveat."]},
             {"file": "preprocess.py", "title": "Encode features",
              "key": "preprocess",
              "does": "Creates the pass/fail target, converts yes/no and "
                      "two-option columns to 1/0, one-hot encodes the rest "
                      "and removes G3 from the inputs.",
-             "notes": ["Dropping G3 prevents target leakage - it IS the "
-                       "answer.",
+             "notes": ["G3 is removed from the inputs to prevent target "
+                       "leakage.",
                        "drop_first=True avoids a redundant dummy column."]},
             {"file": "eda.py", "title": "Explore drivers", "key": "main",
              "does": "Correlations with passing, pass rate by past "
@@ -259,7 +261,7 @@ PROJECTS = [
                      "the final grade.",
              "notes": ["Past failures are the strongest warning sign: 75% "
                        "pass with none, 18% with two.",
-                       "G2 correlates 0.90 with G3, which is why we test "
+                       "G2 correlates 0.90 with G3, so models are evaluated "
                        "with and without term grades."]},
             {"file": "train.py", "title": "Train & compare",
              "key": "run_scenario",
@@ -268,13 +270,14 @@ PROJECTS = [
                      "in an early-warning and a with-grades scenario.",
              "notes": ["The model is chosen by cross-validation, never by "
                        "the test score.",
-                       "Honest result: without grades only ~46% of failing "
-                       "students are caught; with grades 92%."]},
+                       "Without term grades the best model identifies 46% of "
+                       "failing students; with them, 92%."]},
             {"file": "evaluate.py", "title": "Evaluate", "key": "main",
              "does": "Classification report, confusion matrix and feature "
                      "importance for the chosen Random Forest.",
-             "notes": ["The costly mistake is a failing student predicted "
-                       "to pass - only 2 of 26 here.",
+             "notes": ["Only 2 of 26 failing students were predicted to "
+                       "pass - the costliest error for an early-warning "
+                       "tool.",
                        "Feature importance makes the model explainable to "
                        "teachers."]},
             {"file": "predict.py", "title": "Predict new students",
@@ -284,8 +287,8 @@ PROJECTS = [
                      "a risk label.",
              "notes": ["Re-using preprocess() guarantees training and "
                        "prediction encode data the same way.",
-                       "Output is an action: high-risk students get "
-                       "mentoring."]},
+                       "High-risk predictions map to an action: mentoring "
+                       "or extra classes."]},
         ],
     },
     {
@@ -312,8 +315,9 @@ PROJECTS = [
              "does": "Parses the JSON columns and builds one 'tags' text per "
                      "movie: overview + genres + keywords + top-3 cast + "
                      "director.",
-             "notes": ["Names are squashed into one token (christianbale) "
-                       "so first names don't create false matches."]},
+             "notes": ["Multi-word names become single tokens "
+                       "(christianbale) to avoid false matches on first "
+                       "names."]},
             {"file": "vectorize.py", "title": "Vectorise + similarity",
              "key": "main",
              "does": "CountVectorizer turns tags into word-count vectors; "
@@ -327,10 +331,11 @@ PROJECTS = [
              "key": "recommend",
              "does": "Fuzzy-matches the title, then returns the most similar "
                      "movies that pass a minimum-votes quality filter.",
-             "notes": ["'Toy Strory' still works thanks to difflib fuzzy "
-                       "matching.",
-                       "Limitation to discuss: Toy Story -> 40 Year Old "
-                       "Virgin, because both overviews mention 'Andy'."]},
+             "notes": ["Fuzzy title matching (difflib) handles typos such as "
+                       "'Toy Strory'.",
+                       "Known limitation: shared overview words can create "
+                       "weak matches (Toy Story and The 40 Year Old Virgin "
+                       "both mention 'Andy')."]},
             {"file": "app.py", "title": "Streamlit app", "key": None,
              "run": False, "preview": "reelpick",
              "cmd": "streamlit run app.py",
@@ -385,8 +390,8 @@ PROJECTS = [
             {"file": "rank.py", "title": "Rank & shortlist", "key": "main",
              "does": "Sorts candidates, applies the shortlist rule and "
                      "writes a CSV report and a chart.",
-             "notes": ["The tool assists - a person makes the final "
-                       "decision."]},
+             "notes": ["Designed to assist: the tool ranks and explains, a "
+                       "recruiter makes the decision."]},
         ],
     },
 ]

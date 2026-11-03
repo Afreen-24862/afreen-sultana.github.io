@@ -4,12 +4,12 @@ CityAir AI - Step 4: Train a model to forecast tomorrow's AQI
 Why a forecast? The assistant should not only say "the air is bad today"
 but warn people BEFORE a bad day, so they can plan.
 
-Two key decisions (both are good interview talking points):
+Two key decisions:
 
 1. TIME-BASED split, not a random split.
-   train = 2015-2019, test = 2020. A random split would let the model peek at
-   days right next to the test days, which inflates the score and could never
-   happen in real life (we cannot train on the future).
+   train = 2015-2019, test = 2020. A random split would put days from the
+   test period into training (look-ahead bias), inflating the score in a way
+   that cannot happen in production - the future is never available.
 
 2. Predict the CHANGE, not the level.
    Tomorrow's AQI is usually close to today's, so the model learns

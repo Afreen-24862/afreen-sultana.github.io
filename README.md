@@ -20,7 +20,7 @@ Built with plain HTML, CSS and JavaScript — **no build step, no framework, no 
 
 ## Highlights
 
-- **Code walkthrough** — every main project shown as a flow of modules: click a step for its key code and the real output it printed, or open **Detailed** for the full, commented source ([`projects/`](projects))
+- **Code walkthrough** — every main project shown as a flow of modules: click a step for its key code and the real output it printed, or open the full, commented source ([`projects/`](projects))
 - **Try-it-live project demos** — each project opens a working mini-demo with a "How it helps" 3D scene and a case study
 - **Live air-quality demo** — real Hyderabad (or any city) data with plain-language health guidance
 - **3D CityAir playground** — drag the city, raise the pollution, switch on actions and watch the smog clear

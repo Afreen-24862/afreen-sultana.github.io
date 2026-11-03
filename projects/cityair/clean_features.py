@@ -4,7 +4,7 @@ CityAir AI - Step 2: Clean the data and engineer features
 Goal: a tidy daily table where every row can answer
 "given today's air, what will tomorrow's AQI be?"
 
-Cleaning decisions (each one is a likely interview question):
+Cleaning decisions:
   * Short sensor gaps (<= 3 days) are filled by time interpolation, because
     air quality changes smoothly from one day to the next.
   * Longer gaps are NOT invented - those rows are dropped instead.

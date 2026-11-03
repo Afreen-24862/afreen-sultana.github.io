@@ -6,8 +6,8 @@ Machine-learning models only understand numbers, so this step:
   2. turns yes/no columns into 1/0
   3. turns two-option columns (e.g. sex F/M) into 1/0
   4. one-hot encodes columns with several options (e.g. mother's job)
-  5. removes G3 from the inputs - it IS the answer, keeping it would be
-     cheating ("target leakage")
+  5. removes G3 from the inputs - it is the target itself, so keeping it
+     would be target leakage
 """
 from pathlib import Path
 

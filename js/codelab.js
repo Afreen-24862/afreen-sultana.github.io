@@ -47,7 +47,7 @@
           <div class="cl-stack">${P.stack.map(s => `<span>${esc(s)}</span>`).join('')}</div></div>
         <div class="cl-meta"><span>${P.modules.length} modules · ${P.loc.toLocaleString()} lines</span>
           ${runnable ? `<span>Outputs captured ${fmtDate(D.generated)} · Python ${esc(D.python)}</span>` : '<span>Code + screenshots from the running app</span>'}
-          <div class="cl-acts">${runnable ? '<button class="btn solid cl-runall" type="button">▶ Run all steps</button>' : ''}<a class="btn ghost" href="${P.folder}" target="_blank" rel="noopener">Source folder ↗</a></div></div>
+          <div class="cl-acts">${runnable ? '<button class="btn solid cl-runall" type="button" title="Steps through every module and replays its captured output">▶ Replay pipeline</button>' : ''}<a class="btn ghost" href="${P.folder}" target="_blank" rel="noopener">Source folder ↗</a></div></div>
       </div>
       <div class="cl-kpis">${P.kpis.map(k => `<div><b>${esc(k.v)}</b><span>${esc(k.l)}</span></div>`).join('')}</div>
       ${gallery.length ? `<div class="cl-gal"><div class="cl-gal-h"><small>PROJECT OUTPUTS · ${gallery.length}</small><span>Click an output to open its step</span></div>
@@ -71,18 +71,18 @@
     $('#clStep').innerHTML = `
       <div class="cl-step-h">
         <div><small>STEP ${i + 1} OF ${P.modules.length}${m.file ? ` · <code>${esc(m.file)}</code>` : m.label ? ` · <code>localhost:5173${esc(m.label)}</code>` : ''}</small><h4>${esc(m.title)}</h4><p>${esc(m.does)}</p></div>
-        ${m.notes && m.notes.length ? `<div class="cl-notes"><small>Say it in the interview</small><ul>${m.notes.map(n => `<li>${esc(n)}</li>`).join('')}</ul></div>` : ''}
+        ${m.notes && m.notes.length ? `<div class="cl-notes"><small>Design notes</small><ul>${m.notes.map(n => `<li>${esc(n)}</li>`).join('')}</ul></div>` : ''}
       </div>
       <div class="cl-panes${hasCode ? '' : ' wide'}">
         ${hasCode ? `<div class="cl-code">
           <div class="cl-bar"><span class="cl-fn">${esc(m.file.split('/').pop())}</span>
-            <div class="cl-seg" role="group" aria-label="Code view">${m.key ? '<button data-v="key" aria-pressed="true">Key part</button>' : ''}<button data-v="full" aria-pressed="${m.key ? 'false' : 'true'}">Detailed · full code</button></div>
+            <div class="cl-seg" role="group" aria-label="Code view">${m.key ? '<button data-v="key" aria-pressed="true">Key code</button>' : ''}<button data-v="full" aria-pressed="${m.key ? 'false' : 'true'}">Full source</button></div>
             <span class="cl-tools"><button class="cl-copy" type="button" title="Copy full file">Copy</button><a href="${BLOB + m.path}" target="_blank" rel="noopener" title="Open on GitHub">↗</a></span></div>
           <pre class="cl-pre" tabindex="0"><code></code></pre>
           <div class="cl-foot"></div>
         </div>` : ''}
         ${hasOut ? `<div class="cl-out">
-          <div class="cl-bar"><span class="cl-cmd">${esc(outLabel)}</span>${m.ran ? '<button class="cl-run" type="button">▶ Run</button>' : ''}</div>
+          <div class="cl-bar"><span class="cl-cmd">${esc(outLabel)}</span>${m.ran ? '<button class="cl-run" type="button" title="Replays the output captured when this file ran">▶ Replay</button>' : ''}</div>
           ${m.ran ? `<pre class="cl-term" tabindex="0"></pre>` : ''}
           ${m.preview ? `<div class="cl-preview">${m.preview}</div><p class="cl-note">Preview filled with this step's real <code>recommend()</code> output. Launch the actual app with <code>${esc(m.cmd)}</code>.</p>` : ''}
           ${m.imgs.length ? `<div class="cl-imgs${m.imgs.length > 2 ? ' grid' : ''}">${m.imgs.map(g => `<figure><a href="${g.src}" target="_blank" rel="noopener"><img src="${g.src}" alt="${esc(g.cap)}" loading="lazy"></a><figcaption>${esc(g.cap)}</figcaption></figure>`).join('')}</div>` : ''}
@@ -112,8 +112,8 @@
     $('.cl-panes', root).classList.toggle('det', view === 'full');   // detailed = full-width code
     $$('.cl-seg [data-v]', root).forEach(x => x.setAttribute('aria-pressed', x.dataset.v === view));
     $('.cl-foot', root).innerHTML = view === 'key'
-      ? `Key part · lines ${a}–${b} of ${m.lines} <button type="button" class="cl-full">Show detailed full code (${m.lines} lines) →</button>`
-      : `Full file · ${m.lines} lines${m.key ? ` · key part highlighted <button type="button" class="cl-keyonly">Back to key part</button>` : ''}`;
+      ? `Key code · lines ${a}–${b} of ${m.lines} <button type="button" class="cl-full">View full source (${m.lines} lines) →</button>`
+      : `Full source · ${m.lines} lines${m.key ? ` · key code highlighted <button type="button" class="cl-keyonly">Back to key code</button>` : ''}`;
     const f = $('.cl-full', root), k = $('.cl-keyonly', root);
     if (f) f.onclick = () => { view = 'full'; drawCode(); toKey(); };
     if (k) k.onclick = () => { view = 'key'; drawCode(); };
@@ -125,18 +125,18 @@
     if (!term) return Promise.resolve();
     if (!animate || reduce) { term.innerHTML = cmd + esc(m.out); status.hidden = false; if (imgs) imgs.classList.remove('wait'); return Promise.resolve(); }
     const lines = m.out.split('\n'); term.innerHTML = cmd; status.hidden = true; if (imgs) imgs.classList.add('wait');
-    const btn = $('.cl-run', root); btn.disabled = true; btn.textContent = 'Running…';
+    const btn = $('.cl-run', root); btn.disabled = true; btn.textContent = 'Replaying…';
     let k = 0, per = Math.max(1, Math.ceil(lines.length / 45));
     return new Promise(done => { const tick = () => {
       if (token !== runToken || !term.isConnected) return done();
       term.insertAdjacentHTML('beforeend', esc(lines.slice(k, k + per).join('\n')) + '\n'); k += per; term.scrollTop = term.scrollHeight;
-      if (k < lines.length) setTimeout(tick, 28); else { status.hidden = false; if (imgs) imgs.classList.remove('wait'); btn.disabled = false; btn.textContent = '▶ Run again'; done(); }
+      if (k < lines.length) setTimeout(tick, 28); else { status.hidden = false; if (imgs) imgs.classList.remove('wait'); btn.disabled = false; btn.textContent = '▶ Replay'; done(); }
     }; setTimeout(tick, 240); });
   }
 
   async function runAll() {
     const btn = $('.cl-runall', root), my = ++runToken;
-    if (btn.dataset.on) { delete btn.dataset.on; btn.textContent = '▶ Run all steps'; runToken++; return; }
+    if (btn.dataset.on) { delete btn.dataset.on; btn.textContent = '▶ Replay pipeline'; runToken++; return; }
     btn.dataset.on = 1; btn.textContent = '■ Stop';
     for (let i = 0; i < P.modules.length; i++) {
       if (my !== runToken) break;
@@ -146,7 +146,7 @@
       if (my !== runToken) break;
       await new Promise(r => setTimeout(r, 900));
     }
-    if (btn.isConnected) { delete btn.dataset.on; btn.textContent = '▶ Run all steps'; }
+    if (btn.isConnected) { delete btn.dataset.on; btn.textContent = '▶ Replay pipeline'; }
   }
 
   /* ---------- open from elsewhere (project popup) ---------- */

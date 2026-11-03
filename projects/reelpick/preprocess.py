@@ -5,7 +5,7 @@ Content-based filtering compares movies by their CONTENT. We describe each
 movie with a bag of words ("tags") made of:
     overview words + genres + keywords + top-3 cast + director
 
-Trick: multi-word names are joined into one token ("Sam Worthington" ->
+Multi-word names are joined into one token ("Sam Worthington" ->
 "samworthington"). Otherwise every "Sam" or "Johnson" would look related.
 """
 import json
