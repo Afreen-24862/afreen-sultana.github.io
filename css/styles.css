@@ -428,3 +428,4 @@ em{font-style:normal;color:var(--dim)}
 .cl-gal-row>button>img[src$=".png"]{object-fit:contain;object-position:center;background:#fff;padding:6px}
 .cl-gal-prev{aspect-ratio:16/10;overflow:hidden;background:#fff;position:relative;pointer-events:none}
 .cl-gal-prev .cl-preview{position:absolute;left:0;top:0;width:440px;margin:0;transform:scale(.48);transform-origin:top left;box-shadow:none}
+@media(max-width:800px){.cl-code>.cl-bar{display:grid;grid-template-columns:1fr auto;row-gap:8px}.cl-code>.cl-bar .cl-seg{grid-column:1/-1;grid-row:2;width:100%}.cl-code>.cl-bar .cl-seg button{flex:1}.cl-gal-h span{display:none}}
