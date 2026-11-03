@@ -56,9 +56,10 @@ PROJECTS = [
                        "Missing Gemini key = warning, not a crash: upload "
                        "and browsing still work."],
              "cmd": "uvicorn app.main:app --reload",
-             "imgs": [("aira/chat.jpg", "The React app running against "
-                       "this API - sidebar status: RAG Pipeline Active, "
-                       "powered by ChromaDB + Gemini")]},
+             "imgs": [("aira/sidebar.jpg", "The React app shell served "
+                       "against this API: every research tool available, "
+                       "status 'RAG Pipeline Active - Powered by ChromaDB + "
+                       "Gemini'")]},
             {"file": "backend/app/api/papers.py",
              "title": "Upload & index papers", "key": "_process_paper",
              "does": "Accepts a PDF, saves it, responds immediately, then "
@@ -73,25 +74,63 @@ PROJECTS = [
              "imgs": [("aira/upload.jpg", "Upload page: 6 papers processed "
                        "- BERT parsed to 16 pages, 16 chunks indexed, "
                        "status Ready")]},
-            {"file": None, "title": "Research tools (UI)",
-             "does": "The React frontend: every page sends the selected "
-                     "papers to a research endpoint, which retrieves the "
-                     "most relevant chunks from ChromaDB and asks Gemini to "
-                     "answer from them.",
-             "notes": ["One retrieval pipeline powers 6 features: chat, "
-                       "summary, literature review, gaps, compare, "
-                       "citations.",
-                       "Paper filters limit retrieval to the papers the "
-                       "user picked."],
-             "cmd": "npm run dev  ->  http://localhost:5173",
-             "imgs": [("aira/chat.jpg", "Research Chat - RAG Q&A across "
-                       "uploaded papers"),
-                      ("aira/summary.jpg", "Summarize Paper"),
-                      ("aira/review.jpg", "Literature Review"),
-                      ("aira/gaps.jpg", "Research Gap Detection"),
-                      ("aira/compare.jpg", "Compare Papers"),
-                      ("aira/citations.jpg", "Citations & Research "
-                       "Questions")]},
+            {"file": None, "label": "/chat", "title": "Research Chat",
+             "does": "Ask questions across the uploaded papers. AIRA finds "
+                     "the most relevant passages and generates an answer "
+                     "grounded in them.",
+             "notes": ["Selecting papers narrows the search; with none "
+                       "selected it searches the whole library.",
+                       "Suggested questions (main contribution, methodology, "
+                       "key findings) help first-time users start."],
+             "cmd": "localhost:5173/chat",
+             "imgs": [("aira/chat.jpg", "Research Chat - RAG question "
+                       "answering across uploaded papers")]},
+            {"file": None, "label": "/summary", "title": "Summarize paper",
+             "does": "Pick one paper and AIRA produces a structured "
+                     "summary covering objectives, methodology, findings and "
+                     "contributions.",
+             "notes": ["Fixed sections make summaries easy to compare "
+                       "across papers."],
+             "cmd": "localhost:5173/summary",
+             "imgs": [("aira/summary.jpg", "Summarize Paper - choose one "
+                       "paper, then Generate Summary")]},
+            {"file": None, "label": "/review", "title": "Literature review",
+             "does": "Select two or more papers and AIRA synthesises themes, "
+                     "methodologies, findings and research gaps into a "
+                     "structured academic review.",
+             "notes": ["A minimum of 2 papers is enforced - a review needs "
+                       "something to synthesise.",
+                       "Each review is logged and counted on the dashboard "
+                       "(the /papers/stats endpoint)."],
+             "cmd": "localhost:5173/review",
+             "imgs": [("aira/review.jpg", "Literature Review - select at "
+                       "least 2 papers, then Generate Review")]},
+            {"file": None, "label": "/gaps", "title": "Research gaps",
+             "does": "AIRA analyses limitations, future-work sections and "
+                     "methodology gaps across the selected papers to surface "
+                     "unexplored research opportunities.",
+             "notes": ["Useful for choosing a thesis or project topic."],
+             "cmd": "localhost:5173/gaps",
+             "imgs": [("aira/gaps.jpg", "Research Gap Detection - select "
+                       "papers, then Detect Gaps")]},
+            {"file": None, "label": "/compare", "title": "Compare papers",
+             "does": "Select 2-4 papers for a side-by-side comparison table "
+                     "of objectives, methodology, results and limitations.",
+             "notes": ["The 2-4 paper limit keeps the comparison table "
+                       "readable."],
+             "cmd": "localhost:5173/compare",
+             "imgs": [("aira/compare.jpg", "Compare Papers - select 2-4 "
+                       "papers, then Compare Papers")]},
+            {"file": None, "label": "/citations", "title": "Citations & questions",
+             "does": "Generates a formatted citation (APA and other styles) "
+                     "for a paper, and formulates new research questions for "
+                     "a chosen topic from the selected papers.",
+             "notes": ["Paper metadata (title, authors, year) is extracted "
+                       "from the PDF at upload - see step 2."],
+             "cmd": "localhost:5173/citations",
+             "imgs": [("aira/citations.jpg", "Citations & Research "
+                       "Questions - citation generator (left) and research "
+                       "question generator (right)")]},
         ],
     },
     {
@@ -413,6 +452,7 @@ def build():
         for m in proj["modules"]:
             entry = {k: m.get(k) for k in ("title", "does", "notes")}
             entry["file"] = m["file"]
+            entry["label"] = m.get("label")
             if m["file"]:
                 code = (folder / m["file"]).read_text(encoding="utf-8")
                 entry.update(

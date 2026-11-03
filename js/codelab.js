@@ -44,7 +44,7 @@
           <div class="cl-acts">${runnable ? '<button class="btn solid cl-runall" type="button">▶ Run all steps</button>' : ''}<a class="btn ghost" href="${P.folder}" target="_blank" rel="noopener">Source folder ↗</a></div></div>
       </div>
       <div class="cl-kpis">${P.kpis.map(k => `<div><b>${esc(k.v)}</b><span>${esc(k.l)}</span></div>`).join('')}</div>
-      <ol class="cl-flow" aria-label="Pipeline steps">${P.modules.map((m, i) => `<li><button class="cl-node" data-i="${i}" aria-current="false"><i>${i + 1}</i><b>${esc(m.title)}</b><code>${esc(m.file ? m.file.split('/').pop() : 'UI screens')}</code></button></li>`).join('')}</ol>
+      <ol class="cl-flow" aria-label="Pipeline steps">${P.modules.map((m, i) => `<li><button class="cl-node" data-i="${i}" aria-current="false"><i>${i + 1}</i><b>${esc(m.title)}</b><code>${esc(m.file ? m.file.split('/').pop() : (m.label || 'UI screen'))}</code></button></li>`).join('')}</ol>
       <div class="cl-step" id="clStep" aria-live="polite"></div>`;
     $('.cl-flow', root).onclick = e => { const b = e.target.closest('.cl-node'); if (b) { runToken++; selectModule(+b.dataset.i, { scroll: false }); } };
     $('.cl-flow', root).onkeydown = e => { if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return; e.preventDefault(); const n = Math.max(0, Math.min(P.modules.length - 1, mi + (e.key === 'ArrowRight' ? 1 : -1))); runToken++; selectModule(n); $$('.cl-node', root)[n].focus(); };
@@ -61,7 +61,7 @@
     const outLabel = m.ran ? 'Execution output' : m.preview ? 'UI preview' : 'Output · screenshot from the running app';
     $('#clStep').innerHTML = `
       <div class="cl-step-h">
-        <div><small>STEP ${i + 1} OF ${P.modules.length}${m.file ? ` · <code>${esc(m.file)}</code>` : ''}</small><h4>${esc(m.title)}</h4><p>${esc(m.does)}</p></div>
+        <div><small>STEP ${i + 1} OF ${P.modules.length}${m.file ? ` · <code>${esc(m.file)}</code>` : m.label ? ` · <code>localhost:5173${esc(m.label)}</code>` : ''}</small><h4>${esc(m.title)}</h4><p>${esc(m.does)}</p></div>
         ${m.notes && m.notes.length ? `<div class="cl-notes"><small>Say it in the interview</small><ul>${m.notes.map(n => `<li>${esc(n)}</li>`).join('')}</ul></div>` : ''}
       </div>
       <div class="cl-panes${hasCode ? '' : ' wide'}">
