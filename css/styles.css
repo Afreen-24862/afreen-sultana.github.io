@@ -404,11 +404,11 @@ em{font-style:normal;color:var(--dim)}
 .st h4{font-size:26px;font-weight:700;color:#31333f;margin:0}.st-cap{color:#808495;font-size:13px;margin:2px 0 14px}
 .st label{display:block;font-size:13px;margin-bottom:4px}.st-sel{border:1px solid #d6d6d9;border-radius:8px;padding:8px 12px;display:flex;justify-content:space-between;margin-bottom:12px;background:#f0f2f6}
 .st-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:12px}.st-row b{color:#ff4b4b}
-.st button{background:#ff4b4b;color:#fff;border-radius:8px;padding:7px 16px;font-weight:600;font-size:14px;margin-bottom:14px}
+.st .st-btn{display:inline-block;background:#ff4b4b;color:#fff;border-radius:8px;padding:7px 16px;font-weight:600;font-size:14px;margin-bottom:14px}
 .st h5{font-size:18px;font-weight:700;margin:0 0 10px;color:#31333f}
 .st-card{border:1px solid #e6e9ef;border-radius:10px;padding:10px 14px;margin-bottom:8px;display:flex;justify-content:space-between;gap:12px;align-items:center}
 .st-card small{display:block;color:#808495;font-size:12px}.st-card i{display:block;height:4px;border-radius:4px;background:#ff4b4b;margin:6px 0 4px;max-width:260px}
-.st-card em{font-size:12px;color:#808495}.st-card span{font-size:12px;color:#808495;text-align:right}.st-card span b{display:block;font-size:22px;color:#31333f}
+.st-card em{font-size:12px;color:#808495}.st-card .st-m{font-size:12px;color:#808495;text-align:right}.st-card .st-m b{display:block;font-size:22px;color:#31333f}.st-sel i{font-style:normal}
 @media(max-width:1000px){.cl-panes{grid-template-columns:1fr}}
 @media(max-width:800px){.cl-head{grid-template-columns:1fr}.cl-meta{align-items:flex-start;text-align:left}.cl-acts{justify-content:flex-start}.cl-kpis{grid-template-columns:1fr 1fr}.cl-step-h{grid-template-columns:1fr}.cl-flow li{flex:0 0 72%}.cl-pre{font-size:12px;max-height:420px}.cl-bar{flex-wrap:wrap}.cl-seg{margin-left:0}.cl-tabs{justify-content:flex-start}}
 @media(max-width:420px){.cl-proj{padding:16px;border-radius:24px}.cl-kpis b{font-size:22px}.cl-nav button{font-size:13px;padding:9px 14px}}
@@ -418,10 +418,13 @@ em{font-style:normal;color:var(--dim)}
 .cl-gal{margin:0 0 20px}.cl-gal-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:10px}
 .cl-gal-h small{font-size:12px;font-weight:600;letter-spacing:.08em;color:var(--dim)}.cl-gal-h span{font-size:12px;color:var(--dim)}
 .cl-gal-row{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(190px,1fr);gap:10px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x proximity}
-.cl-gal-row button{scroll-snap-align:start;text-align:left;border-radius:16px;overflow:hidden;background:var(--bg2);border:1.5px solid transparent;transition:.3s var(--ease)}
-.cl-gal-row button:hover{transform:translateY(-3px);border-color:var(--accent)}
-.cl-gal-row img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top left;background:#0d0d10}
-.cl-gal-row span{display:flex;gap:8px;align-items:center;padding:8px 12px;font-size:13px;font-weight:600}
-.cl-gal-row span b{flex:0 0 20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;display:grid;place-items:center}
+.cl-gal-row>button{scroll-snap-align:start;text-align:left;border-radius:16px;overflow:hidden;background:var(--bg2);border:1.5px solid transparent;transition:.3s var(--ease)}
+.cl-gal-row>button:hover{transform:translateY(-3px);border-color:var(--accent)}
+.cl-gal-row>button>img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top left;background:#0d0d10}
+.cl-gal-row>button>span{display:flex;gap:8px;align-items:center;padding:8px 12px;font-size:13px;font-weight:600}
+.cl-gal-row>button>span b{flex:0 0 20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;display:grid;place-items:center}
 @media(min-width:801px){.cl-flow.many{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;overflow:visible}.cl-flow.many li::before{display:none}.cl-flow.many li{flex:none}}
 @media(min-width:801px){.cl-gal-row{grid-auto-flow:row;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));overflow:visible}}
+.cl-gal-row>button>img[src$=".png"]{object-fit:contain;object-position:center;background:#fff;padding:6px}
+.cl-gal-prev{aspect-ratio:16/10;overflow:hidden;background:#fff;position:relative;pointer-events:none}
+.cl-gal-prev .cl-preview{position:absolute;left:0;top:0;width:440px;margin:0;transform:scale(.48);transform-origin:top left;box-shadow:none}

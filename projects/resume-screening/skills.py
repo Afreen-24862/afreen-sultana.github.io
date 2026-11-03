@@ -13,7 +13,14 @@ import json
 import re
 from pathlib import Path
 
+import matplotlib
+
+matplotlib.use("Agg")
+import matplotlib.colors  # noqa: E402,F401
+import matplotlib.pyplot as plt  # noqa: E402
+
 IN, OUT = Path("build/resumes_clean.json"), Path("build/skills.json")
+CHART = Path("outputs/resume_skill_matrix.png")
 
 SKILLS = {
     "python": ["python"],
@@ -75,4 +82,23 @@ if __name__ == "__main__":
                                      "clean": d["clean"]})
         print(f"{d['candidate']:<15} ({len(skills):>2}) {', '.join(skills)}")
     OUT.write_text(json.dumps(result, indent=1), encoding="utf-8")
-    print(f"\nSaved {OUT}")
+
+    # ---- Chart: candidate x skill matrix (green = has the skill) ----
+    cols = required + nice
+    rows = result["candidates"]
+    grid = [[1 if skill in c["skills"] else 0 for skill in cols] for c in rows]
+    fig, ax = plt.subplots(figsize=(10, 2.9), dpi=120)
+    ax.imshow(grid, cmap=matplotlib.colors.ListedColormap(["#f2f2f7", "#30d158"]),
+              aspect="auto")
+    for i, row in enumerate(grid):
+        for j, has in enumerate(row):
+            ax.text(j, i, "✓" if has else "–", ha="center", va="center",
+                    fontsize=10, color="white" if has else "#aeaeb2")
+    ax.set_xticks(range(len(cols)), cols, rotation=35, ha="right", fontsize=8)
+    ax.set_yticks(range(len(rows)), [c["candidate"] for c in rows], fontsize=9)
+    ax.axvline(len(required) - 0.5, color="#1d1d1f", lw=1.5)   # required | nice
+    ax.set_title(f"Skill matrix - required ({len(required)}) | "
+                 f"nice to have ({len(nice)})", fontsize=10)
+    CHART.parent.mkdir(exist_ok=True)
+    fig.savefig(CHART, bbox_inches="tight")
+    print(f"\nSaved {OUT} | Chart: {CHART}")

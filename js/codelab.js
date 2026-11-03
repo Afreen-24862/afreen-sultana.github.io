@@ -37,7 +37,10 @@
     const runnable = P.modules.some(m => m.ran);
     // every output image in the project, linked back to the step that made it
     const seen = new Set(), gallery = [];
-    P.modules.forEach((m, i) => m.imgs.forEach(g => { if (g.gal !== false && !seen.has(g.src)) { seen.add(g.src); gallery.push({ ...g, i }); } }));
+    P.modules.forEach((m, i) => {
+      m.imgs.forEach(g => { if (g.gal !== false && !seen.has(g.src)) { seen.add(g.src); gallery.push({ ...g, i }); } });
+      if (m.preview) gallery.push({ i, preview: m.preview, cap: m.title });   // UI preview as a mini card
+    });
     $('#clProj').innerHTML = `
       <div class="cl-head">
         <div><h3>${esc(P.name)} <em>— ${esc(P.sub)}</em></h3><p class="cl-data"><b>Data</b> ${esc(P.data)}</p>
@@ -48,7 +51,7 @@
       </div>
       <div class="cl-kpis">${P.kpis.map(k => `<div><b>${esc(k.v)}</b><span>${esc(k.l)}</span></div>`).join('')}</div>
       ${gallery.length ? `<div class="cl-gal"><div class="cl-gal-h"><small>PROJECT OUTPUTS · ${gallery.length}</small><span>Click an output to open its step</span></div>
-        <div class="cl-gal-row">${gallery.map(g => `<button type="button" data-i="${g.i}"><img src="${g.src}" alt="${esc(g.cap)}" loading="lazy"><span><b>${g.i + 1}</b>${esc(P.modules[g.i].title)}</span></button>`).join('')}</div></div>` : ''}
+        <div class="cl-gal-row">${gallery.map(g => `<button type="button" data-i="${g.i}">${g.preview ? `<div class="cl-gal-prev" aria-hidden="true"><div class="cl-preview">${g.preview}</div></div>` : `<img src="${g.src}" alt="${esc(g.cap)}" loading="lazy">`}<span><b>${g.i + 1}</b>${esc(P.modules[g.i].title)}</span></button>`).join('')}</div></div>` : ''}
       <ol class="cl-flow${P.modules.length > 6 ? ' many' : ''}" aria-label="Pipeline steps">${P.modules.map((m, i) => `<li><button class="cl-node" data-i="${i}" aria-current="false"><i>${i + 1}</i><b>${esc(m.title)}</b><code>${esc(m.file ? m.file.split('/').pop() : (m.label || 'UI screen'))}</code></button></li>`).join('')}</ol>
       <div class="cl-step" id="clStep" aria-live="polite"></div>`;
     const gal = $('.cl-gal-row', root); if (gal) gal.onclick = e => { const b = e.target.closest('[data-i]'); if (b) { runToken++; selectModule(+b.dataset.i); } };

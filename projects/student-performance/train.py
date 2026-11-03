@@ -20,6 +20,7 @@ Evaluation method:
 from pathlib import Path
 
 import joblib
+import matplotlib
 import pandas as pd
 from sklearn.dummy import DummyClassifier
 from sklearn.ensemble import RandomForestClassifier
@@ -30,7 +31,32 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.tree import DecisionTreeClassifier
 
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt  # noqa: E402
+
 OUT = Path("build/best_model.joblib")
+CHART = Path("outputs/student_model_comparison.png")
+
+
+def plot_comparison(early, late):
+    """Grouped bars: how many failing students each model catches."""
+    fig, axes = plt.subplots(1, 2, figsize=(10, 3.6), dpi=120, sharey=True)
+    for ax, table, title in [(axes[0], early, "A - early warning (no G1/G2)"),
+                             (axes[1], late, "B - with term grades")]:
+        x = range(len(table))
+        ax.bar([i - 0.2 for i in x], table["Balanced acc"], 0.4,
+               label="Balanced accuracy", color="#0071e3")
+        ax.bar([i + 0.2 for i in x], table["At-risk recall"], 0.4,
+               label="At-risk recall", color="#ff9f0a")
+        ax.set_xticks(list(x), [n.replace(" ", "\n", 1) for n in table.index],
+                      fontsize=8)
+        ax.set_ylim(0, 1.05)
+        ax.set_title(f"Scenario {title}", fontsize=10)
+        ax.spines[["top", "right"]].set_visible(False)
+    axes[0].legend(fontsize=8, frameon=False, loc="upper left")
+    fig.tight_layout()
+    CHART.parent.mkdir(exist_ok=True)
+    fig.savefig(CHART, bbox_inches="tight")
 
 
 def candidate_models():
@@ -90,4 +116,5 @@ if __name__ == "__main__":
           f"with term grades it catches {late.loc[best, 'At-risk recall']:.0%}.")
     joblib.dump({"model": model, "name": best, "features": list(X.columns),
                  "test": test_set}, OUT)
-    print(f"Saved {best} (scenario B) to {OUT}")
+    plot_comparison(early, late)
+    print(f"Saved {best} (scenario B) to {OUT} | Chart: {CHART}")

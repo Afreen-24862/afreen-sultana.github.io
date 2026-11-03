@@ -28,6 +28,33 @@ from pygments.formatters import HtmlFormatter
 from pygments.lexers import PythonLexer
 
 ROOT = Path(__file__).resolve().parent.parent
+
+# Friendly captions for charts the modules save (file name -> caption)
+CAPTIONS = {
+    "cityair_data_profile.png": "Data quality: missing values per column and "
+                                "days per AQI category",
+    "cityair_eda.png": "Monthly AQI trend, seasonal pattern and the 2020 "
+                       "lockdown effect",
+    "cityair_forecast.png": "Next-day forecast vs actual AQI on unseen 2020 "
+                            "data",
+    "cityair_assistant_view.png": "The assistant's context: last 30 days + "
+                                  "tomorrow's forecast with error bar",
+    "student_eda.png": "Pass rate by past failures and study time; G2 vs "
+                       "final grade",
+    "student_model_comparison.png": "Balanced accuracy and at-risk recall "
+                                    "for every model, both scenarios",
+    "student_evaluation.png": "Confusion matrix and top-10 feature "
+                              "importances",
+    "student_predictions.png": "Predicted probability of passing for two "
+                               "new students",
+    "reelpick_similarity.png": "Cosine similarity between well-known movies",
+    "reelpick_recommendations.png": "Top-5 recommendations and match scores "
+                                    "for four movies",
+    "resume_skill_matrix.png": "Which candidate has which required / "
+                               "nice-to-have skill",
+    "resume_score_breakdown.png": "Where each candidate's score comes from",
+    "resume_scores.png": "Final ranking with the shortlist line",
+}
 REPO = "https://github.com/Afreen-24862/afreen-sultana.github.io/tree/main/"
 
 # --------------------------------------------------------------------------
@@ -346,7 +373,9 @@ PROJECTS = [
                      "SQL, github -> Git) using word boundaries, for resumes "
                      "and the job description alike.",
              "notes": ["Word boundaries stop 'java' matching inside "
-                       "'javascript'."]},
+                       "'javascript'.",
+                       "The skill matrix shows at a glance who covers which "
+                       "requirement."]},
             {"file": "matcher.py", "title": "Score vs job", "key": "score",
              "does": "Score = 70% required skills + 20% nice-to-have + 10% "
                      "TF-IDF text similarity, with matched and missing "
@@ -429,14 +458,14 @@ def reelpick_preview(folder):
         f'({p["year"]})<small>{html.escape(p["genres"])}</small>'
         f'<i style="width:{min(p["match"] * 200, 100):.0f}%"></i>'
         f'<em>⭐ {p["rating"]:.1f} / 10</em></div>'
-        f'<span>Match<b>{p["match"]:.0%}</b></span></div>' for p in picks)
+        f'<div class="st-m">Match<b>{p["match"]:.0%}</b></div></div>' for p in picks)
     return (f'<div class="st"><h4>🎬 ReelPick</h4><p class="st-cap">'
             f'Content-based movie recommendations - TMDB 5000 dataset</p>'
             f'<label>Pick a movie you like</label><div class="st-sel">'
-            f'{html.escape(title)}<span>▾</span></div>'
+            f'{html.escape(title)}<i>▾</i></div>'
             f'<div class="st-row"><label>How many suggestions? <b>5</b>'
             f'</label><label>Minimum votes <b>200</b></label></div>'
-            f'<button>Recommend</button><h5>Because you liked '
+            f'<div class="st-btn">Recommend</div><h5>Because you liked '
             f'{html.escape(title)}</h5>{cards}</div>')
 
 
@@ -470,7 +499,8 @@ def build():
                 outputs_by_file[m["file"]] = out
                 entry.update(out=out, secs=secs, ran=True)
                 entry["imgs"] += [{"src": save_chart(c, proj["id"]),
-                                   "cap": c.name, "gal": True} for c in charts]
+                                   "cap": CAPTIONS.get(c.name, c.name),
+                                   "gal": True} for c in charts]
                 print(f"  ran {proj['slug']}/{m['file']} in {secs:.2f}s")
             else:
                 entry["ran"] = False

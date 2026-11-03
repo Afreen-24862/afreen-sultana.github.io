@@ -12,12 +12,18 @@ change - every score can be explained line by line.
 import json
 from pathlib import Path
 
+import matplotlib
+
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 from preprocess import clean
 
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt  # noqa: E402
+
 IN, OUT = Path("build/skills.json"), Path("build/scores.json")
+CHART = Path("outputs/resume_score_breakdown.png")
 WEIGHTS = {"required": 0.7, "nice": 0.2, "text": 0.1}
 
 
@@ -61,4 +67,23 @@ if __name__ == "__main__":
               f"  +  text {p['text']:.2f} x 10")
         print(f"  matched: {', '.join(r['matched']) or '-'}")
         print(f"  missing must-haves: {', '.join(r['missing_required']) or 'none'}\n")
-    print(f"Saved {OUT}")
+    # ---- Chart: where each candidate's points come from ----
+    fig, ax = plt.subplots(figsize=(9, 2.9), dpi=120)
+    names = [r["candidate"] for r in results][::-1]
+    left = [0] * len(results)
+    for part, color, label in [("required", "#0071e3", "Required skills (70)"),
+                               ("nice", "#5ac8fa", "Nice to have (20)"),
+                               ("text", "#bf5af2", "Text similarity (10)")]:
+        pts = [100 * WEIGHTS[part] * r["parts"][part] for r in results][::-1]
+        ax.barh(names, pts, left=left, color=color, label=label)
+        left = [a + b for a, b in zip(left, pts)]
+    for i, total in enumerate(left):
+        ax.text(total + 1, i, f"{total:.0f}", va="center", fontsize=9)
+    ax.set_xlim(0, 100)
+    ax.legend(fontsize=8, frameon=False, ncol=3, loc="lower right",
+              bbox_to_anchor=(1, 1.02))
+    ax.set_title("Score breakdown (points out of 100)", fontsize=10, loc="left")
+    ax.spines[["top", "right"]].set_visible(False)
+    CHART.parent.mkdir(exist_ok=True)
+    fig.savefig(CHART, bbox_inches="tight")
+    print(f"Saved {OUT} | Chart: {CHART}")

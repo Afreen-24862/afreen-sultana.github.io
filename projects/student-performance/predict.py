@@ -8,11 +8,19 @@ returns the probability of passing plus a risk label.
 Re-using preprocess() from step 2 is important - if training and prediction
 encoded data differently, the model would silently give wrong answers.
 """
+from pathlib import Path
+
 import joblib
+import matplotlib
 import pandas as pd
 
 from load_data import load
 from preprocess import preprocess
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt  # noqa: E402
+
+CHART = Path("outputs/student_predictions.png")
 
 # Two example students (made-up profiles for the demo)
 NEW_STUDENTS = [
@@ -54,3 +62,21 @@ if __name__ == "__main__":
         print(f"{s['name']}: {shown}")
         print(f"  -> P(pass) = {p:.0%}  |  {risk_label(p)}\n")
     print("Action: HIGH-risk students are flagged for mentoring / extra classes.")
+
+    # ---- Chart: probability of passing, coloured by risk band ----
+    fig, ax = plt.subplots(figsize=(8, 2.4), dpi=120)
+    names = [s["name"] for s in NEW_STUDENTS][::-1]
+    probs = list(proba)[::-1]
+    colors = ["#30d158" if p >= 0.7 else "#ff9f0a" if p >= 0.4 else "#ff453a"
+              for p in probs]
+    ax.barh(names, [1] * len(names), color="#e5e5ea")      # 100% track
+    ax.barh(names, probs, color=colors)
+    for i, p in enumerate(probs):
+        ax.text(min(p + 0.02, 0.9), i, f"{p:.0%}  {risk_label(p)}",
+                va="center", fontsize=9)
+    ax.axvline(0.4, ls=":", color="#8e8e93"), ax.axvline(0.7, ls=":", color="#8e8e93")
+    ax.set_xlim(0, 1), ax.set_title("Predicted probability of passing",
+                                    fontsize=10)
+    ax.spines[["top", "right"]].set_visible(False)
+    fig.savefig(CHART, bbox_inches="tight")
+    print(f"Chart: {CHART}")

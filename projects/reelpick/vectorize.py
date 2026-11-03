@@ -12,12 +12,17 @@ ReelPick - Step 3: Turn tags into vectors and compare every pair of movies
 import time
 from pathlib import Path
 
+import matplotlib
 import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt  # noqa: E402
+
 IN, OUT = Path("build/movies_clean.pkl"), Path("build/neighbours.npz")
+CHART = Path("outputs/reelpick_similarity.png")
 TOP_K = 30
 
 if __name__ == "__main__":
@@ -48,3 +53,24 @@ if __name__ == "__main__":
     words = vocab[vectors[i].nonzero()[1]]
     print(f"Avatar's vector has {len(words)} non-zero words, e.g. "
           f"{', '.join(sorted(words)[:10])} ...")
+
+    # ---- Chart: similarity between a few well-known movies ----
+    picks = ["The Dark Knight", "The Dark Knight Rises", "Batman Begins",
+             "Toy Story", "Toy Story 3", "Finding Nemo", "Avatar", "Titanic"]
+    ids = [movies.index[movies["title"] == t][0] for t in picks]
+    np.fill_diagonal(sim, 1)                      # restore self-similarity
+    block = sim[np.ix_(ids, ids)]
+    fig, ax = plt.subplots(figsize=(7, 5.4), dpi=120)
+    im = ax.imshow(block, cmap="Blues", vmin=0, vmax=0.5)
+    ax.set_xticks(range(len(picks)), picks, rotation=40, ha="right", fontsize=8)
+    ax.set_yticks(range(len(picks)), picks, fontsize=8)
+    for i in range(len(picks)):
+        for j in range(len(picks)):
+            ax.text(j, i, f"{block[i, j]:.2f}", ha="center", va="center",
+                    fontsize=7, color="white" if block[i, j] > 0.3 else "#1d1d1f")
+    ax.set_title("Cosine similarity between movies (1.0 = identical tags)",
+                 fontsize=10)
+    fig.colorbar(im, ax=ax, shrink=0.8)
+    CHART.parent.mkdir(exist_ok=True)
+    fig.savefig(CHART, bbox_inches="tight")
+    print(f"Chart: {CHART}")

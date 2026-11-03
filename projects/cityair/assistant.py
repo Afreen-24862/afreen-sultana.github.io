@@ -17,10 +17,16 @@ import urllib.request
 from pathlib import Path
 
 import joblib
+import matplotlib
+import matplotlib.dates  # noqa: F401  (date labels on the chart)
 import pandas as pd
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt  # noqa: E402
 
 FEATURES = Path("build/features.pkl")
 MODEL = Path("build/aqi_model.joblib")
+CHART = Path("outputs/cityair_assistant_view.png")
 
 # CPCB national AQI categories (upper limit, label, health message)
 CATEGORIES = [
@@ -113,6 +119,35 @@ def rule_based_answer(facts, question):
     return f"{head} {facts['health_note']} (General info, not medical advice.)"
 
 
+def plot_context(facts):
+    """Chart of what the assistant 'sees': last 30 days + tomorrow's forecast."""
+    df = pd.read_pickle(FEATURES)
+    recent = df["AQI"].iloc[-30:]
+    tomorrow = recent.index[-1] + pd.Timedelta(days=1)
+    err = float(facts["forecast_error"].split()[1])
+    fig, ax = plt.subplots(figsize=(9, 3.2), dpi=120)
+    top = max(110, recent.max() + 20)
+    bands = [(0, 50, "#30d158"), (50, 100, "#a3d977"), (100, 200, "#ffd60a")]
+    for (low, high, color), (_, label, _) in zip(bands, CATEGORIES):
+        ax.axhspan(low, high, color=color, alpha=0.12, lw=0)   # category bands
+        if low < top:
+            ax.text(recent.index[0], min(high, top) - 9, label, fontsize=8,
+                    color="#6e6e73")
+    ax.set_ylim(0, top)
+    ax.plot(recent.index, recent.values, color="#0071e3", lw=2, marker="o",
+            ms=3, label="AQI - last 30 days")
+    ax.errorbar([tomorrow], [facts["forecast_tomorrow"]], yerr=[[err], [err]],
+                fmt="o", color="#ff9f0a", capsize=4, ms=7,
+                label=f"Forecast {facts['forecast_tomorrow']} "
+                      f"({facts['forecast_error']})")
+    ax.xaxis.set_major_locator(matplotlib.dates.DayLocator(interval=6))
+    ax.xaxis.set_major_formatter(matplotlib.dates.DateFormatter("%d %b"))
+    ax.set_title("What the assistant knows before answering", fontsize=10)
+    ax.legend(fontsize=8, frameon=False, loc="upper right")
+    ax.spines[["top", "right"]].set_visible(False)
+    fig.savefig(CHART, bbox_inches="tight")
+
+
 def answer(question, facts):
     prompt = PROMPT.format(facts=json.dumps(facts, indent=1), question=question)
     reply = ask_gemini(prompt)
@@ -132,9 +167,11 @@ if __name__ == "__main__":
     questions = ["Is it safe to go for a run this evening?",
                  "What will the air be like tomorrow?",
                  "What can I do to help reduce pollution?"]
+    plot_context(facts)
     for i, q in enumerate(questions):
         mode, prompt, reply = answer(q, facts)
         if i == 0:
             print("\nPROMPT sent to the LLM (shortened):")
             print(prompt[:330] + " ...")
         print(f"\nQ: {q}\nA [{mode}]: {reply}")
+    print(f"\nChart: {CHART}")

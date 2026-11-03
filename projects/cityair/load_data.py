@@ -9,10 +9,19 @@ raw data first tells us what cleaning the next step has to do.
 """
 from pathlib import Path
 
+import matplotlib
 import pandas as pd
+
+matplotlib.use("Agg")                     # draw charts without a screen
+import matplotlib.pyplot as plt  # noqa: E402
 
 DATA = Path("data/hyderabad_city_day.csv")
 OUT = Path("build/raw.pkl")
+CHART = Path("outputs/cityair_data_profile.png")
+CATEGORY_ORDER = ["Good", "Satisfactory", "Moderate", "Poor", "Very Poor",
+                  "Severe"]
+CATEGORY_COLOR = ["#30d158", "#a3d977", "#ffd60a", "#ff9f0a", "#ff453a",
+                  "#a2123b"]
 
 # The pollutants CPCB measures (all in micrograms per cubic metre, CO in mg/m3)
 POLLUTANTS = ["PM2.5", "PM10", "NO", "NO2", "NOx", "NH3", "CO", "SO2", "O3",
@@ -54,5 +63,21 @@ if __name__ == "__main__":
 
     # 5) How often is the air Good / Moderate / Poor ...?
     print("\nDays per AQI category:")
-    print(df["AQI_Bucket"].value_counts().to_string())
-    print(f"\nSaved {OUT}")
+    counts = df["AQI_Bucket"].value_counts().reindex(CATEGORY_ORDER).fillna(0)
+    print(counts.astype(int).to_string())
+
+    # ---- Chart: data quality (left) and how often each category occurs ----
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 3.6), dpi=120)
+    m = missing.sort_values()
+    ax1.barh(m.index, m.values, color=["#ff9f0a" if v > 10 else "#0071e3"
+                                       for v in m.values])
+    ax1.set_title("Missing values per column (%)", fontsize=10)
+    ax2.bar(counts.index, counts.values, color=CATEGORY_COLOR)
+    ax2.set_title("Days per AQI category (2015-2020)", fontsize=10)
+    ax2.tick_params(axis="x", labelsize=8, rotation=20)
+    for ax in (ax1, ax2):
+        ax.spines[["top", "right"]].set_visible(False)
+    fig.tight_layout()
+    CHART.parent.mkdir(exist_ok=True)
+    fig.savefig(CHART, bbox_inches="tight")
+    print(f"\nSaved {OUT} | Chart: {CHART}")
