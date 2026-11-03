@@ -1,0 +1,24 @@
+Job Title: Junior AI/ML Engineer
+Location: Hyderabad (Hybrid)
+
+About the role
+We are looking for a Junior AI/ML Engineer to build and deploy machine learning features for our analytics product. You will clean data, train models, expose them through REST APIs and work with the team using Git.
+
+Required skills:
+- Python
+- Machine Learning
+- Pandas
+- Scikit-learn
+- SQL
+- REST APIs
+- Git
+
+Nice to have:
+- Docker
+- AWS
+- NLP
+- LLM / Generative AI
+- FastAPI
+- CI/CD
+
+Experience: 0-2 years. Freshers with strong projects are welcome.

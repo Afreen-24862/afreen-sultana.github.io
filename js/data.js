@@ -40,13 +40,13 @@ window.DATA = {
 
   showSampleBadges: false,
   experience: [
-    { tab: "Final-Year Project", role: "AI for Urban Air Quality", org: "B.Tech Project", when: "2026", type: "Flagship",
-      tags: ["Python","LLM","Machine Learning","Pollution Data","Data Analysis"],
-      intro: "An AI assistant for Hyderabad that uses the city’s pollution data together with an LLM to help people understand air quality and take steps to reduce their exposure and impact.",
+    { tab: "Final-Year Project", role: "AIRA — RAG-based AI Research Agent", org: "B.Tech Project", when: "2026", type: "Flagship",
+      tags: ["Python","FastAPI","RAG","ChromaDB","Sentence-Transformers","Gemini","React"],
+      intro: "AIRA-Lite: an AI research assistant that turns uploaded research papers into a searchable knowledge base and answers questions grounded in them.",
       points: [
-        ["Problem:", "Hyderabad’s air-quality numbers are hard for ordinary people to interpret, and rarely tell them what to actually do."],
-        ["Approach:", "Combine Hyderabad’s real pollution data with an AI / LLM model that explains conditions in plain language and suggests practical actions."],
-        ["Goal:", "Help users make better daily decisions and reduce pollution at an individual and community level."]
+        ["Problem:", "Reviewing many research papers by hand is slow, and generic chatbots answer without grounding in the actual papers."],
+        ["Approach:", "Retrieval-augmented generation — PDF extraction → overlapping chunks → all-MiniLM-L6-v2 embeddings in ChromaDB → the most relevant chunks go to Google Gemini. FastAPI backend, React (Vite) frontend."],
+        ["Features:", "Research chat, paper summaries, literature review, research-gap detection, paper comparison, citations and research-question generation."]
       ]},
     { tab: "Core Strengths", role: "What I bring", org: "Software · AI/ML · DevOps", when: "Now", type: "Strengths",
       tags: ["Problem Solving","Communication","Ownership","Documentation"],
@@ -73,12 +73,18 @@ window.DATA = {
   ],
 
   projects: [
-    { id: "p1", tag: "Hyderabad’s air, explained by AI.", name: "CityAir AI", cat: "AI", sub: "Hyderabad Pollution Insights & Control Assistant", year: "2026", featured: true,
+    { id: "aira", tag: "Ask your research papers anything.", name: "AIRA", cat: "AI", sub: "RAG-based AI Research Agent (AIRA-Lite)", year: "2026", featured: true, flag: "Final-year project", cta: "See how it works",
+      desc: "A research assistant that indexes uploaded papers and uses retrieval-augmented generation to chat, summarise, review literature, find research gaps, compare papers and generate citations.",
+      problem: "Students and researchers spend hours reading many papers to find methods, compare results and spot open problems — and generic chatbots answer without grounding in those papers.",
+      solution: "Upload PDFs → a FastAPI backend extracts the text, splits it into overlapping chunks and embeds them with Sentence-Transformers (all-MiniLM-L6-v2) into ChromaDB. Each request retrieves the most relevant chunks and Google Gemini writes the answer from them. A React (Vite) frontend offers research chat, summaries, literature review, gap detection, paper comparison and citations.",
+      impact: "Turns a stack of papers into a searchable knowledge base, with answers grounded in the papers' own text — faster literature reviews and less hallucination.",
+      stack: ["Python","FastAPI","RAG","ChromaDB","Sentence-Transformers","Gemini","React"], hue: 245, live: "#", repo: "#" },
+    { id: "p1", tag: "Hyderabad’s air, explained by AI.", name: "CityAir AI", cat: "AI", sub: "Hyderabad Pollution Insights & Control Assistant", year: "2026",
       desc: "An LLM-powered assistant built around Hyderabad’s pollution data that explains the air in plain language and guides people toward reducing it.",
       problem: "Hyderabad’s air-quality numbers are hard for everyday residents to interpret and rarely turn into clear, actionable guidance.",
       solution: "Feed Hyderabad’s pollution data into an AI / LLM model that interprets it, answers questions in plain language and recommends practical steps for residents.",
       impact: "Helps people in Hyderabad understand the air they breathe and take actions that help control pollution across the city.",
-      stack: ["Python","LLM","Machine Learning","Data Analysis"], hue: 200, live: "#", repo: "#" },
+      stack: ["Python","LLM","Machine Learning","Pandas"], hue: 200, live: "#", repo: "#" },
     { id: "p7", tag: "Score a resume against any job.", name: "Resume Screening Helper", cat: "AI", sub: "AI Resume Screening Helper", year: "",
       desc: "A Python workflow that extracts skills from a resume, compares them with job-description keywords and generates a relevance score.",
       problem: "Reading every resume by hand against a job description is slow and inconsistent.",

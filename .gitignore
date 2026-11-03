@@ -1,0 +1,6 @@
+# generated when the project code runs (tools/build_codelab.py)
+projects/*/build/
+projects/*/outputs/
+__pycache__/
+*.pyc
+.env

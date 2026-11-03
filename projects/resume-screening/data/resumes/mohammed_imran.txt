@@ -1,0 +1,15 @@
+Mohammed Imran
+mohammed.imran@example.com | +91 90000 00004
+
+SUMMARY
+Front-end developer who enjoys building clean, responsive user interfaces.
+
+SKILLS
+HTML, CSS, JavaScript, React, Node.js, Express, MongoDB, Git, Figma
+
+PROJECTS
+Food Delivery UI - React single-page app with cart and checkout, deployed on Netlify.
+Chat App - Node.js and Socket.io real-time chat with MongoDB message history.
+
+EDUCATION
+B.Tech Electronics, 2025
