@@ -200,22 +200,7 @@
   const toastMsg = m => { const t = $('#toast'); if (!t) return; t.textContent = m; t.classList.add('on'); clearTimeout(toastMsg.t); toastMsg.t = setTimeout(() => t.classList.remove('on'), 2200); };
   window.TryIt = { mount: (el, id) => D[id] && D[id](el), has: id => !!D[id] };
 
-  /* ---------- Explore checklist (keeps visitors exploring) ---------- */
-  const ITEMS = [['tryit', 'Try a project demo', 'Open any project in Selected work'], ['3d', 'Play with the 3D city', 'Clear the smog in the playground'], ['air', 'Check a city’s air', 'Search any city in the live demo'], ['theme', 'Switch light / dark', 'Tap the ◐ button in the top bar'], ['cmd', 'Open the command palette', 'Press Ctrl / ⌘ + K']];
-  let done = {}; try { done = JSON.parse(localStorage.getItem('explore') || '{}'); } catch (e) {}
-  const pill = document.createElement('div'); pill.className = 'explore'; pill.innerHTML = '<button class="ex-pill" aria-expanded="false"><span class="ex-ring"></span><b>Explore</b><i id="exN"></i></button><div class="ex-panel" hidden><h4>Explore this portfolio</h4><ul></ul><div class="ex-win" hidden><p>🎉 You’ve seen it all. Let’s build something together.</p><button class="btn solid" id="exMail">Copy email</button></div></div>';
-  document.body.appendChild(pill);
-  const render = () => { const n = ITEMS.filter(i => done[i[0]]).length; $('#exN').textContent = `${n}/${ITEMS.length}`; pill.style.setProperty('--p', n / ITEMS.length); $('ul', pill).innerHTML = ITEMS.map(i => `<li class="${done[i[0]] ? 'ok' : ''}"><span>${done[i[0]] ? '✓' : ''}</span><div><b>${i[1]}</b><small>${i[2]}</small></div></li>`).join(''); $('.ex-win', pill).hidden = n < ITEMS.length; pill.classList.toggle('full', n === ITEMS.length); };
-  window.Explore = { mark: k => { $$('.ex-bubble').forEach(b => b.remove()); if (done[k]) return; done[k] = 1; try { localStorage.setItem('explore', JSON.stringify(done)); } catch (e) {} render(); const n = ITEMS.filter(i => done[i[0]]).length; toastMsg(n === ITEMS.length ? '🎉 Explorer complete!' : `Explore ${n}/${ITEMS.length} ✓`); if (n === ITEMS.length) { pill.classList.add('open'); $('.ex-panel', pill).hidden = false; } } };
-  $('.ex-pill', pill).onclick = () => { const o = pill.classList.toggle('open'); $('.ex-panel', pill).hidden = !o; $('.ex-pill', pill).setAttribute('aria-expanded', o); };
-  $('#exMail', pill).onclick = () => { navigator.clipboard?.writeText((window.DATA && DATA.email) || ''); toastMsg('Email copied ✓'); };
-  render();
-  // gentle one-time idle nudge
-  let nudged = false; try { nudged = sessionStorage.getItem('nudged') === '1'; } catch (e) {}
-  if (!nudged) setTimeout(() => {
-    if (Object.keys(done).length || $('#modal').classList.contains('on')) return;
-    const b = document.createElement('div'); b.className = 'ex-bubble'; b.innerHTML = '<span>👋 Try a live demo — it takes 10 seconds.</span><button>Show me</button><i aria-label="Dismiss">×</i>'; pill.appendChild(b); try { sessionStorage.setItem('nudged', '1'); } catch (e) {}
-    $('button', b).onclick = () => { b.remove(); window.lenis ? lenis.scrollTo('#work', { offset: -40 }) : $('#work').scrollIntoView({ behavior: 'smooth' }); };
-    $('i', b).onclick = () => b.remove(); setTimeout(() => b.remove(), 14000);
-  }, 14000);
+  // Explore checklist removed for a cleaner, professional site; main.js still
+  // calls Explore.mark(), so keep a no-op in its place.
+  window.Explore = { mark: () => {} };
 })();
