@@ -80,7 +80,13 @@ $('#themeBtn').onclick = toggleTheme;
 $('#burger').onclick = () => $('#links').classList.toggle('open');
 $$('#links a').forEach(a => a.addEventListener('click', () => $('#links').classList.remove('open')));
 if ($('#photo')) $('#photo').onchange = e => { const f = e.target.files[0]; if (!f) return; const r = new FileReader(); r.onload = ev => { $('#photoImg').src = ev.target.result; $('#photoImg').style.display = 'block'; }; r.readAsDataURL(f); };
-const copyMail = () => { navigator.clipboard?.writeText(D.email); toast('Email copied ✓'); };
+// Clipboard that also works in in-app browsers (WebViews often block navigator.clipboard)
+const copyText = text => new Promise((ok, fail) => {
+  const legacy = () => { try { const ta = document.createElement('textarea'); ta.value = text; ta.setAttribute('readonly', ''); ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0'; document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, text.length); const done = document.execCommand('copy'); ta.remove(); done ? ok() : fail(); } catch (e) { fail(e); } };
+  if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(ok, legacy); else legacy();
+});
+window.copyText = copyText;
+const copyMail = () => copyText(D.email).then(() => toast('Email copied ✓'), () => { location.href = 'mailto:' + D.email; });
 $('#mailBtn').onclick = copyMail;
 $('#form').onsubmit = e => { e.preventDefault(); const f = new FormData(e.target); location.href = `mailto:${D.email}?subject=${encodeURIComponent('Portfolio message from ' + f.get('n'))}&body=${encodeURIComponent(f.get('m') + '\n\n— ' + f.get('n') + ' (' + f.get('e') + ')')}`; toast('Opening your mail app…'); };
 

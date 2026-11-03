@@ -185,7 +185,7 @@
     const run = () => { const k = [...sel]; $('#t11f').innerHTML = k.length ? k.map((x, i) => `<div class="fstep"><span>${i + 1}</span><div><b>${x}</b><small>→ ${P[x][0]} · <em>${P[x][1]}</em></small></div></div>`).join('') : '<p class="t-hint">Select at least one pain point…</p>';
       $('#t11n').value = k.length ? `HANDOVER NOTES — Client Workflow Automation\n\nGoal: remove manual effort and improve visibility.\n\nWhat was built:\n${k.map((x, i) => `${i + 1}. ${P[x][0]}`).join('\n')}\n\nIntegrations: ${[...new Set(k.map(x => P[x][1]))].join(', ')}\n\nHow to support: check logs first, then the workflow settings. Escalate with the steps to reproduce.\nNext steps: gather feedback after 2 weeks and prioritise improvements.` : ''; };
     $('#t11c').onclick = e => { const b = e.target.closest('button'); if (!b) return; const n = b.textContent; sel.has(n) ? sel.delete(n) : sel.add(n); b.setAttribute('aria-pressed', sel.has(n)); run(); };
-    $('#t11cp').onclick = () => { navigator.clipboard?.writeText($('#t11n').value); toastMsg('Notes copied ✓'); }; run();
+    $('#t11cp').onclick = () => { const v = $('#t11n').value; (window.copyText ? copyText(v) : Promise.reject()).then(() => toastMsg('Notes copied ✓'), () => { $('#t11n').select(); toastMsg('Select-all done - copy with your keyboard'); }); }; run();
   };
 
   /* 12 — Responsive portfolio: drag the screen width */

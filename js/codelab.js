@@ -94,7 +94,7 @@
     if (hasCode) { view = m.key ? 'key' : 'full'; drawCode(); }
     if (m.ran) { animate ? null : showOutput(m, false); const r = $('.cl-run', root); r.onclick = () => { runToken++; showOutput(m, true, runToken); }; }
     $('.cl-seg', root) && ($('.cl-seg', root).onclick = e => { const b = e.target.closest('[data-v]'); if (!b) return; view = b.dataset.v; drawCode(); if (view === 'full') toKey(); });
-    $('.cl-copy', root) && ($('.cl-copy', root).onclick = () => { const t = document.createElement('div'); t.innerHTML = m.code.join('\n'); navigator.clipboard?.writeText(t.textContent).then(() => toast('Code copied ✓'), () => toast('Copy failed')); });
+    $('.cl-copy', root) && ($('.cl-copy', root).onclick = () => { const t = document.createElement('div'); t.innerHTML = m.code.join('\n'); (window.copyText ? copyText(t.textContent) : navigator.clipboard.writeText(t.textContent)).then(() => toast('Code copied ✓'), () => toast('Copy not available here - use the ↗ GitHub link')); });
     $('.cl-prev', root).onclick = () => { runToken++; selectModule(mi - 1); };
     $('.cl-next', root).onclick = () => { runToken++; selectModule(mi + 1); };
     if (scroll) $('#clStep').scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });

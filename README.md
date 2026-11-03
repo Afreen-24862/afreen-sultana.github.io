@@ -25,7 +25,7 @@ Built with plain HTML, CSS and JavaScript — **no build step, no framework, no 
 - **Live air-quality demo** — real Hyderabad (or any city) data with plain-language health guidance
 - **3D CityAir playground** — drag the city, raise the pollution, switch on actions and watch the smog clear
 - **Command palette** (`Ctrl/⌘ + K`) and light/dark mode that follows the system
-- **Responsive & accessible** — works from small phones to large screens, keyboard-friendly, respects reduced motion
+- **Responsive & accessible** — works from 320 px phones to 4K screens and inside in-app browsers (LinkedIn, WhatsApp, Instagram, Gmail), keyboard-friendly, respects reduced motion
 
 ## Projects
 
